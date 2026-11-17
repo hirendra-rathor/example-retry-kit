@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1099" height="546" viewBox="0 0 1099 546" role="img" aria-labelledby="title desc">
+<title id="title">Milestone 3 checks</title>
+<desc id="desc">Terminal capture rendered from the recorded output of: uv run --locked python -m pytest -v --no-header -k &#x27;at_1_1 or exactly_at or overruns or one_second_budget or never_read&#x27;; uv run --locked python -m pytest -q. Standard output is light gray, standard error is amber.</desc>
+<rect width="1099" height="546" rx="10" fill="#1d232c"/>
+<rect width="1099" height="36" rx="10" fill="#2b323d"/>
+<rect y="26" width="1099" height="10" fill="#2b323d"/>
+<circle cx="20" cy="18" r="6" fill="#ff5f57"/><circle cx="40" cy="18" r="6" fill="#febc2e"/><circle cx="60" cy="18" r="6" fill="#28c840"/>
+<text x="549.5" y="23" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#b9c2ce" text-anchor="middle">Milestone 3 checks</text>
+<g font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="14" xml:space="preserve">
+<text x="22" y="68"><tspan fill="#5fd38d">$ </tspan><tspan fill="#ffffff" font-weight="700">uv run --locked python -m pytest -v --no-header -k &#x27;at_1_1 or exactly_at or overruns or one_second_budget or never_read&#x27;</tspan></text>
+<text x="22" y="88" fill="#d7dde5">============================= test session starts ==============================</text>
+<text x="22" y="108" fill="#d7dde5">collecting ... collected 88 items / 78 deselected / 10 selected</text>
+<text x="22" y="128" fill="#d7dde5"></text>
+<text x="22" y="148" fill="#d7dde5">tests/test_budget.py::test_report_ready_at_1_1_seconds_is_returned_after_the_deadline PASSED [ 10%]</text>
+<text x="22" y="168" fill="#d7dde5">tests/test_budget.py::test_report_still_preparing_at_1_1_seconds_raises_read_twos_exception_without_waiting PASSED [ 20%]</text>
+<text x="22" y="188" fill="#d7dde5">tests/test_budget.py::test_a_retry_planned_exactly_at_the_deadline_raises_without_waiting PASSED [ 30%]</text>
+<text x="22" y="208" fill="#d7dde5">tests/test_budget.py::test_a_wait_that_overruns_to_the_deadline_stops_the_retry PASSED [ 40%]</text>
+<text x="22" y="228" fill="#d7dde5">tests/test_budget.py::test_a_wait_that_overruns_but_ends_before_the_deadline_still_retries PASSED [ 50%]</text>
+<text x="22" y="248" fill="#d7dde5">tests/test_budget.py::test_without_a_budget_the_clock_is_never_read PASSED [ 60%]</text>
+<text x="22" y="268" fill="#d7dde5">tests/test_budget.py::test_without_a_budget_or_delays_the_clock_is_never_read PASSED [ 70%]</text>
+<text x="22" y="288" fill="#d7dde5">tests/test_budget.py::test_deadline_without_a_budget_never_reads_the_clock PASSED [ 80%]</text>
+<text x="22" y="308" fill="#d7dde5">tests/test_consumer.py::test_viewer_with_a_one_second_budget_gets_the_report_from_read_two PASSED [ 90%]</text>
+<text x="22" y="328" fill="#d7dde5">tests/test_consumer.py::test_viewer_with_a_one_second_budget_receives_read_twos_exception_without_another_wait PASSED [100%]</text>
+<text x="22" y="348" fill="#d7dde5"></text>
+<text x="22" y="368" fill="#d7dde5">====================== 10 passed, 78 deselected in 2.37s =======================</text>
+<text x="22" y="388" fill="#8792a2">[exit status 0]</text>
+<text x="22" y="428"><tspan fill="#5fd38d">$ </tspan><tspan fill="#ffffff" font-weight="700">uv run --locked python -m pytest -q</tspan></text>
+<text x="22" y="448" fill="#d7dde5">........................................................................ [ 81%]</text>
+<text x="22" y="468" fill="#d7dde5">................                                                         [100%]</text>
+<text x="22" y="488" fill="#d7dde5">88 passed in 4.19s</text>
+<text x="22" y="508" fill="#8792a2">[exit status 0]</text>
+</g></svg>

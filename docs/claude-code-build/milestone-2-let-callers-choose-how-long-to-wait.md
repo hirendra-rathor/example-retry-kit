@@ -181,4 +181,4 @@ These captures show the report viewer and tests from the milestone 2 implementat
 
 ## Navigation
 
-[Previous milestone](milestone-1-retry-a-callers-operation.md) · [Recording index](README.md) · [Build prompts](../build-prompts.md) · [Project README](../../README.md)
+[Previous milestone](milestone-1-retry-a-callers-operation.md) · [Next milestone](milestone-3-decide-whether-theres-time-for-another-attempt.md) · [Recording index](README.md) · [Build prompts](../build-prompts.md) · [Project README](../../README.md)

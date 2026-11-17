@@ -8,8 +8,9 @@ This folder records the independent **Claude Code** implementation of the Retry 
 | --- | --- |
 | 1. Retry a caller’s operation | [Milestone 1 chapter](milestone-1-retry-a-callers-operation.md) |
 | 2. Let callers choose how long to wait | [Milestone 2 chapter](milestone-2-let-callers-choose-how-long-to-wait.md) |
+| 3. Decide whether there’s time for another attempt | [Milestone 3 chapter](milestone-3-decide-whether-theres-time-for-another-attempt.md) |
 
-The recordings in this folder supply source material for the [Retry Kit walkthrough](https://hirendra-rathor.github.io/examples/retry-kit/).
+All three milestones in the build guide are recorded. They supply the source material for the [Retry Kit walkthrough](https://hirendra-rathor.github.io/examples/retry-kit/).
 
 ## Starting point
 

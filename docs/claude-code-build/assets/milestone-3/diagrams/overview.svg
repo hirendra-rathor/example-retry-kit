@@ -1,0 +1,318 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1752 1150" width="1752" height="1150" role="img" aria-labelledby="title desc" font-family="Arial, Helvetica, sans-serif">
+<title id="title">Decide whether there is time for another attempt</title><desc id="desc">Milestone 3 overview in six perspective columns: Domain, Architecture, Subsystem Design, Subsystem Interfaces, State Management and Verification. Green outlines mark new subjects, blue outlines mark changed subjects and gray outlines mark unchanged context. RetryPolicy gains time_budget; retry() reads an injectable clock and fixes a deadline at the first call. Before each wait the attempt loop asks whether now plus the full wait is before the deadline, and after the wait whether now is still before it; otherwise it raises the last exception. A retry that starts in time returns its result even after the deadline. Checks with a controlled clock cover the report being ready or not at 1.1 seconds, the equality boundary, a wait overrun and an unset budget.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#435970"/></marker><marker id="arrow-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#22a06b"/></marker><marker id="arrow-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#3b82f6"/></marker><marker id="arrow-red" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#dc2626"/></marker></defs>
+<rect width="1752" height="1150" fill="white"/>
+<text x="28" y="43" font-size="29" font-weight="700" fill="#182f46" text-anchor="start">Decide whether there is time for another attempt</text>
+<text x="28" y="75" font-size="17" font-weight="400" fill="#182f46" text-anchor="start">Baseline: milestone 2  •  A time_budget limits when retries may start; it never interrupts a call that has started.</text>
+<rect x="1688" y="20" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="1710.5" y="36" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<rect x="1605" y="20" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="1642.5" y="36" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<rect x="1527" y="20" width="70" height="23" rx="4" fill="#a3a3a3"/>
+<text x="1562.0" y="36" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">context</text>
+<rect x="16" y="108" width="280" height="1026" rx="5" fill="#eff4f8"/>
+<text x="29" y="138" font-size="17" font-weight="700" fill="#182f46" text-anchor="start">Domain</text>
+<rect x="304" y="108" width="280" height="1026" rx="5" fill="#f5f7fa"/>
+<text x="317" y="138" font-size="17" font-weight="700" fill="#182f46" text-anchor="start">Architecture</text>
+<rect x="592" y="108" width="280" height="1026" rx="5" fill="#eff4f8"/>
+<text x="605" y="138" font-size="17" font-weight="700" fill="#182f46" text-anchor="start">Subsystem Design</text>
+<rect x="880" y="108" width="280" height="1026" rx="5" fill="#f5f7fa"/>
+<text x="893" y="138" font-size="17" font-weight="700" fill="#182f46" text-anchor="start">Subsystem Interfaces</text>
+<rect x="1168" y="108" width="280" height="1026" rx="5" fill="#eff4f8"/>
+<text x="1181" y="138" font-size="17" font-weight="700" fill="#182f46" text-anchor="start">State Management</text>
+<rect x="1456" y="108" width="280" height="1026" rx="5" fill="#f5f7fa"/>
+<text x="1469" y="138" font-size="17" font-weight="700" fill="#182f46" text-anchor="start">Verification</text>
+<rect x="26" y="170" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="185" y="159" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="207.5" y="175" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="38" y="194" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">INTENTION</text>
+<text x="38" y="220" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Meet a deadline</text>
+<text x="38" y="246" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Stop starting retries once</text>
+<text x="38" y="267" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">the caller&#x27;s time budget is</text>
+<text x="38" y="288" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">spent; return in time.</text>
+<rect x="26" y="330" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#3b82f6" stroke-width="2.6"/>
+<rect x="155" y="319" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="192.5" y="335" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<text x="38" y="354" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">CAPABILITY</text>
+<text x="38" y="380" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Retry an operation</text>
+<text x="38" y="406" font-size="15" font-weight="400" fill="#586674" text-anchor="start">Today: until max_attempts.</text>
+<text x="38" y="427" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Proposed: also only while</text>
+<text x="38" y="448" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">the budget allows a start.</text>
+<rect x="26" y="490" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="185" y="479" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="207.5" y="495" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="38" y="514" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">RULE</text>
+<text x="38" y="540" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Deadline for starts</text>
+<text x="38" y="566" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">If now + full wait ≥</text>
+<text x="38" y="587" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">deadline, raise the last</text>
+<text x="38" y="608" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">exception without waiting.</text>
+<rect x="26" y="650" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="185" y="639" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="207.5" y="655" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="38" y="674" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">RULE</text>
+<text x="38" y="700" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Recheck after a wait</text>
+<text x="38" y="726" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">A wait can overrun: start</text>
+<text x="38" y="747" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">the retry only if now is</text>
+<text x="38" y="768" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">still before the deadline.</text>
+<rect x="26" y="810" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="185" y="799" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="207.5" y="815" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="38" y="834" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">RULE</text>
+<text x="38" y="860" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Started calls finish</text>
+<text x="38" y="886" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">A retry that started in time</text>
+<text x="38" y="907" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">is never cut short; its</text>
+<text x="38" y="928" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">result is returned.</text>
+<rect x="26" y="970" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#a3a3a3" stroke-width="2.6"/>
+<rect x="160" y="959" width="70" height="23" rx="4" fill="#a3a3a3"/>
+<text x="195.0" y="975" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">context</text>
+<text x="38" y="994" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">INTENTION</text>
+<text x="38" y="1020" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Outlast a delay</text>
+<text x="38" y="1046" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Get the result once a</text>
+<text x="38" y="1067" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">listed failure clears.</text>
+<text x="38" y="1088" font-size="15" font-weight="400" fill="#192e42" text-anchor="start"></text>
+<rect x="314" y="170" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#3b82f6" stroke-width="2.6"/>
+<rect x="443" y="159" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="480.5" y="175" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<text x="326" y="194" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">PARTICIPANT</text>
+<text x="326" y="220" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Report viewer</text>
+<text x="326" y="246" font-size="15" font-weight="400" fill="#586674" text-anchor="start">Today: no deadline.</text>
+<text x="326" y="267" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Proposed: 1 s budget,</text>
+<text x="326" y="288" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">0.3 s waits, 0.4 s reads.</text>
+<rect x="314" y="330" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#3b82f6" stroke-width="2.6"/>
+<rect x="443" y="319" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="480.5" y="335" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<text x="326" y="354" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">PARTICIPANT</text>
+<text x="326" y="380" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Retry Kit</text>
+<text x="326" y="406" font-size="15" font-weight="400" fill="#586674" text-anchor="start">Today: stops at the limit.</text>
+<text x="326" y="427" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Proposed: also stops when</text>
+<text x="326" y="448" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">time runs out.</text>
+<rect x="314" y="490" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="473" y="479" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="495.5" y="495" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="326" y="514" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">PARTICIPANT</text>
+<text x="326" y="540" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Clock</text>
+<text x="326" y="566" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">time.monotonic by default;</text>
+<text x="326" y="587" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">a test passes a clock it</text>
+<text x="326" y="608" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">advances by hand.</text>
+<rect x="314" y="650" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#a3a3a3" stroke-width="2.6"/>
+<rect x="448" y="639" width="70" height="23" rx="4" fill="#a3a3a3"/>
+<text x="483.0" y="655" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">context</text>
+<text x="326" y="674" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">PARTICIPANT</text>
+<text x="326" y="700" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Sleep function</text>
+<text x="326" y="726" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">May sleep longer than</text>
+<text x="326" y="747" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">asked; the recheck after</text>
+<text x="326" y="768" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">each wait covers that.</text>
+<rect x="314" y="810" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#a3a3a3" stroke-width="2.6"/>
+<rect x="448" y="799" width="70" height="23" rx="4" fill="#a3a3a3"/>
+<text x="483.0" y="815" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">context</text>
+<text x="326" y="834" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">PARTICIPANT</text>
+<text x="326" y="860" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">load_report</text>
+<text x="326" y="886" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Unchanged; its running</text>
+<text x="326" y="907" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">time now counts against</text>
+<text x="326" y="928" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">the budget.</text>
+<rect x="602" y="330" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#3b82f6" stroke-width="2.6"/>
+<rect x="731" y="319" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="768.5" y="335" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<text x="614" y="354" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">COMPONENT</text>
+<text x="614" y="380" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Attempt loop</text>
+<text x="614" y="406" font-size="15" font-weight="400" fill="#586674" text-anchor="start">Today: waits, then retries.</text>
+<text x="614" y="427" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Proposed: asks the deadline</text>
+<text x="614" y="448" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">before and after each wait.</text>
+<rect x="602" y="490" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="761" y="479" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="783.5" y="495" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="614" y="514" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">COMPONENT</text>
+<text x="614" y="540" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Deadline</text>
+<text x="614" y="566" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start" font-family="Menlo, Consolas, monospace">retry_kit._deadline</text>
+<text x="614" y="587" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Fixed at the first call;</text>
+<text x="614" y="608" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">answers “is there time?”</text>
+<rect x="602" y="650" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#a3a3a3" stroke-width="2.6"/>
+<rect x="736" y="639" width="70" height="23" rx="4" fill="#a3a3a3"/>
+<text x="771.0" y="655" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">context</text>
+<text x="614" y="674" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">COMPONENT</text>
+<text x="614" y="700" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Wait schedule</text>
+<text x="614" y="726" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Unchanged; supplies the</text>
+<text x="614" y="747" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">full wait that the deadline</text>
+<text x="614" y="768" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">check adds to now.</text>
+<rect x="602" y="810" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#3b82f6" stroke-width="2.6"/>
+<rect x="731" y="799" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="768.5" y="815" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<text x="614" y="834" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">COMPONENT</text>
+<text x="614" y="860" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">RetryPolicy</text>
+<text x="614" y="886" font-size="15" font-weight="400" fill="#586674" text-anchor="start">Today: four settings.</text>
+<text x="614" y="907" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Proposed: + time_budget,</text>
+<text x="614" y="928" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">validated like the delays.</text>
+<rect x="602" y="970" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="761" y="959" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="783.5" y="975" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="614" y="994" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">CONFIGURATION CONTROLS</text>
+<text x="614" y="1020" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">time_budget</text>
+<text x="614" y="1046" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Seconds, finite, &gt; 0.</text>
+<text x="614" y="1067" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">None (default): no budget,</text>
+<text x="614" y="1088" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">clock never read.</text>
+<rect x="890" y="330" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#3b82f6" stroke-width="2.6"/>
+<rect x="1019" y="319" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="1056.5" y="335" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<text x="902" y="354" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">INTERFACE</text>
+<text x="902" y="380" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">retry()</text>
+<text x="902" y="406" font-size="15" font-weight="400" fill="#586674" text-anchor="start">Today: + sleep keyword.</text>
+<text x="902" y="427" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Proposed: + keyword</text>
+<text x="902" y="448" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start" font-family="Menlo, Consolas, monospace">clock=time.monotonic</text>
+<rect x="890" y="490" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="1049" y="479" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="1071.5" y="495" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="902" y="514" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">EXCHANGE</text>
+<text x="902" y="540" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Clock reading</text>
+<text x="902" y="566" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">clock() → seconds, read at</text>
+<text x="902" y="587" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">the first call and before</text>
+<text x="902" y="608" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">and after each wait.</text>
+<rect x="890" y="650" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#3b82f6" stroke-width="2.6"/>
+<rect x="1019" y="639" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="1056.5" y="655" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<text x="902" y="674" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">EXCHANGE</text>
+<text x="902" y="700" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Outcome to caller</text>
+<text x="902" y="726" font-size="15" font-weight="400" fill="#586674" text-anchor="start">Today: last error at limit.</text>
+<text x="902" y="747" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Proposed: also when out of</text>
+<text x="902" y="768" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">time, same object, no wait.</text>
+<rect x="890" y="810" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#3b82f6" stroke-width="2.6"/>
+<rect x="1019" y="799" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="1056.5" y="815" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<text x="902" y="834" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">INTERFACE</text>
+<text x="902" y="860" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">RetryPolicy(...)</text>
+<text x="902" y="886" font-size="15" font-weight="400" fill="#586674" text-anchor="start">Today: four keywords.</text>
+<text x="902" y="907" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Proposed: + keyword</text>
+<text x="902" y="928" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start" font-family="Menlo, Consolas, monospace">time_budget=None</text>
+<rect x="1178" y="330" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="1337" y="319" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="1359.5" y="335" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="1190" y="354" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">STATE ELEMENT</text>
+<text x="1190" y="380" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Deadline</text>
+<text x="1190" y="406" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">first-call reading +</text>
+<text x="1190" y="427" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">time_budget; one per</text>
+<text x="1190" y="448" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">retry() call, never moved.</text>
+<rect x="1178" y="490" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#3b82f6" stroke-width="2.6"/>
+<rect x="1307" y="479" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="1344.5" y="495" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<text x="1190" y="514" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">STATE ELEMENT</text>
+<text x="1190" y="540" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Last exception</text>
+<text x="1190" y="566" font-size="15" font-weight="400" fill="#586674" text-anchor="start">Today: released before wait.</text>
+<text x="1190" y="587" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Proposed: kept through the</text>
+<text x="1190" y="608" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">wait to raise if late.</text>
+<rect x="1178" y="810" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#3b82f6" stroke-width="2.6"/>
+<rect x="1307" y="799" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="1344.5" y="815" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<text x="1190" y="834" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">STATE ELEMENT</text>
+<text x="1190" y="860" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Policy values</text>
+<text x="1190" y="886" font-size="15" font-weight="400" fill="#586674" text-anchor="start">Today: four fields.</text>
+<text x="1190" y="907" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Proposed: five, still</text>
+<text x="1190" y="928" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">frozen and shareable.</text>
+<rect x="1466" y="170" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#3b82f6" stroke-width="2.6"/>
+<rect x="1595" y="159" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="1632.5" y="175" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<text x="1478" y="194" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">TEST</text>
+<text x="1478" y="220" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Example run</text>
+<text x="1478" y="246" font-size="15" font-weight="400" fill="#586674" text-anchor="start">Today: no budget.</text>
+<text x="1478" y="267" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Proposed: 0.4 s reads, 0.3 s</text>
+<text x="1478" y="288" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">waits, 1 s budget, real time.</text>
+<rect x="1466" y="330" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="1625" y="319" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="1647.5" y="335" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="1478" y="354" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">TEST</text>
+<text x="1478" y="380" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Ready at 1.1 s</text>
+<text x="1478" y="406" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Controlled clock: read 2</text>
+<text x="1478" y="427" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">starts at 0.7, ends at 1.1;</text>
+<text x="1478" y="448" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">report returned.</text>
+<rect x="1466" y="490" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="1625" y="479" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="1647.5" y="495" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="1478" y="514" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">TEST</text>
+<text x="1478" y="540" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Not ready at 1.1 s</text>
+<text x="1478" y="566" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Read 2&#x27;s exception object,</text>
+<text x="1478" y="587" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">no third wait, though</text>
+<text x="1478" y="608" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">attempts remain.</text>
+<rect x="1466" y="650" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="1625" y="639" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="1647.5" y="655" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="1478" y="674" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">TEST</text>
+<text x="1478" y="700" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Boundary, overrun</text>
+<text x="1478" y="726" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">0.75 + 0.25 = 1.0: no wait.</text>
+<text x="1478" y="747" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">Sleep that ends at 1.0:</text>
+<text x="1478" y="768" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">no retry starts.</text>
+<rect x="1466" y="810" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="1625" y="799" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="1647.5" y="815" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="1478" y="834" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">TEST</text>
+<text x="1478" y="860" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Budget validation</text>
+<text x="1478" y="886" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">0, negative, NaN, inf,</text>
+<text x="1478" y="907" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">True, strings rejected</text>
+<text x="1478" y="928" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">before any call.</text>
+<rect x="1466" y="970" width="214" height="130" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="1625" y="959" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="1647.5" y="975" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="1478" y="994" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">TEST</text>
+<text x="1478" y="1020" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">No budget</text>
+<text x="1478" y="1046" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">A clock that fails if read</text>
+<text x="1478" y="1067" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">is never read; Milestone</text>
+<text x="1478" y="1088" font-size="15" font-weight="400" fill="#192e42" text-anchor="start">1–2 checks still pass.</text>
+<path d="M66 330 V302" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="76" y="320" font-size="14" font-weight="600" fill="#344d64" text-anchor="start">serves</text>
+<path d="M66 490 V462" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="76" y="480" font-size="14" font-weight="600" fill="#344d64" text-anchor="start">constrains</text>
+<path d="M66 650 V622" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="76" y="640" font-size="14" font-weight="600" fill="#344d64" text-anchor="start">tightens</text>
+<path d="M66 940 V968" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="76" y="960" font-size="14" font-weight="600" fill="#344d64" text-anchor="start">protects</text>
+<path d="M240 410.6 H312" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="277.0" y="386.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">provided</text>
+<text x="277.0" y="403.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">by</text>
+<path d="M354 300 V328" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="364" y="320" font-size="14" font-weight="600" fill="#344d64" text-anchor="start">calls retry()</text>
+<path d="M354 460 V488" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="364" y="480" font-size="14" font-weight="600" fill="#344d64" text-anchor="start">reads time from</text>
+<path d="M528 410.6 H600" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="565.0" y="402.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">runs</text>
+<path d="M528 570.6 H600" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="565.0" y="546.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">read</text>
+<text x="565.0" y="563.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">by</text>
+<path d="M528 241.5 H1464" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="997.0" y="233.5" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">run end to end by the example with real reads, waits and a 1 s budget</text>
+<path d="M642 490 V462" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="652" y="480" font-size="14" font-weight="600" fill="#344d64" text-anchor="start">asked by</text>
+<path d="M642 650 V622" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="652" y="640" font-size="14" font-weight="600" fill="#344d64" text-anchor="start">full wait to</text>
+<path d="M642 810 V782" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="652" y="800" font-size="14" font-weight="600" fill="#344d64" text-anchor="start">configures</text>
+<path d="M642 970 V942" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="652" y="960" font-size="14" font-weight="600" fill="#344d64" text-anchor="start">held in</text>
+<path d="M816 410.6 H888" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="853.0" y="386.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">imple-</text>
+<text x="853.0" y="403.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">ments</text>
+<path d="M816 570.6 H888" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="853.0" y="546.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">reads</text>
+<text x="853.0" y="563.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">via</text>
+<path d="M816 890.6 H888" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="853.0" y="882.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">exposes</text>
+<path d="M930 460 V488" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="940" y="480" font-size="14" font-weight="600" fill="#344d64" text-anchor="start">clock()</text>
+<path d="M930 620 V648" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="940" y="640" font-size="14" font-weight="600" fill="#344d64" text-anchor="start">if late</text>
+<path d="M1104 410.6 H1176" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="1141.0" y="386.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">fixes</text>
+<text x="1141.0" y="403.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">per call</text>
+<path d="M1104 890.6 H1176" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="1141.0" y="866.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">valid-</text>
+<text x="1141.0" y="883.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">ates</text>
+<path d="M1104 730.6 H1464" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="1285.0" y="722.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">budget stop checked by</text>
+<path d="M1392 410.6 H1464" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="1429.0" y="386.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">checked</text>
+<text x="1429.0" y="403.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">by</text>
+<path d="M1392 570.6 H1464" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="1429.0" y="546.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">checked</text>
+<text x="1429.0" y="563.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">by</text>
+<path d="M1392 890.6 H1464" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="1429.0" y="866.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">checked</text>
+<text x="1429.0" y="883.6" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">by</text>
+<path d="M816 1035.0 H1464" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="1141.0" y="1027.0" font-size="14" font-weight="600" fill="#344d64" text-anchor="middle">unset: clock never read — checked by</text>
+</svg>

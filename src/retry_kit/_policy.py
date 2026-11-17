@@ -8,7 +8,7 @@ from numbers import Real
 
 @dataclass(frozen=True, init=False)
 class RetryPolicy:
-    """Which exceptions justify another call, how many calls to allow, and how long to wait.
+    """Which exceptions justify another call, how many calls to allow, and when to wait or stop.
 
     ``retry_on`` names the exception types that make it safe to call the
     operation again. A raised exception matches a listed type or any of its
@@ -20,6 +20,10 @@ class RetryPolicy:
     ``initial_delay`` and each later wait doubles, capped at ``max_delay``.
     When unset, retries happen immediately.
 
+    ``time_budget`` is in seconds and limits when retries may start: each
+    retry() call's deadline is the clock reading at its first call plus the
+    budget. When unset, there is no deadline.
+
     A policy holds no per-call state, so one instance can be shared across
     calls and threads.
     """
@@ -28,6 +32,7 @@ class RetryPolicy:
     max_attempts: int
     initial_delay: float | None
     max_delay: float | None
+    time_budget: float | None
 
     def __init__(
         self,
@@ -36,12 +41,14 @@ class RetryPolicy:
         max_attempts: int,
         initial_delay: float | None = None,
         max_delay: float | None = None,
+        time_budget: float | None = None,
     ) -> None:
         object.__setattr__(self, "retry_on", _exception_types(retry_on))
         object.__setattr__(self, "max_attempts", _attempt_limit(max_attempts))
         initial, maximum = _delays(initial_delay, max_delay)
         object.__setattr__(self, "initial_delay", initial)
         object.__setattr__(self, "max_delay", maximum)
+        object.__setattr__(self, "time_budget", _budget(time_budget))
 
 
 def _exception_types(retry_on: Iterable[type[Exception]]) -> tuple[type[Exception], ...]:
@@ -98,6 +105,17 @@ def _delays(
             f"max_delay must be at least initial_delay; got {max_delay!r} < {initial_delay!r}"
         )
     return initial, maximum
+
+
+def _budget(time_budget: float | None) -> float | None:
+    if time_budget is None:
+        return None
+    seconds = _seconds("time_budget", time_budget)
+    if seconds <= 0:
+        raise ValueError(
+            f"time_budget must be greater than 0; got {time_budget!r} (leave it unset for no deadline)"
+        )
+    return seconds
 
 
 def _seconds(name: str, value: float) -> float:

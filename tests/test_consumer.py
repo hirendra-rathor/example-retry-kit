@@ -2,15 +2,18 @@
 
 These subprocess checks exercise package discovery and the example's output
 end to end, including the retries inside it. Retry behavior itself is tested
-through the public API in test_retry.py and test_waits.py.
+through the public API in test_retry.py, test_waits.py and test_budget.py.
 """
 
 from pathlib import Path
+import re
 import subprocess
 import sys
 import time
 
 EXAMPLE = Path(__file__).resolve().parents[1] / "examples" / "read_report.py"
+# The deadline scenario in real time: 0.4 s reads, 0.3 s waits, a 1 s budget.
+ONE_SECOND_BUDGET = ("--read-seconds", "0.4", "--delay", "0.3", "--time-budget", "1")
 
 
 def run_example(tmp_path: Path, *args: str) -> subprocess.CompletedProcess[str]:
@@ -76,3 +79,30 @@ def test_viewer_receives_a_permission_error_after_one_read(tmp_path: Path) -> No
     assert completed.returncode == 1
     assert completed.stdout == ""
     assert completed.stderr == "Viewer received PermissionError after 1 read(s): report access denied (read 1)\n"
+
+
+def test_viewer_with_a_one_second_budget_gets_the_report_from_read_two(tmp_path: Path) -> None:
+    completed = run_example(tmp_path, *ONE_SECOND_BUDGET, "--not-ready-reads", "1")
+
+    assert completed.returncode == 0
+    assert completed.stdout == "Report ready: 3 rows.\n"
+    assert completed.stderr == ""
+
+
+def test_viewer_with_a_one_second_budget_receives_read_twos_exception_without_another_wait(
+    tmp_path: Path,
+) -> None:
+    completed = run_example(tmp_path, *ONE_SECOND_BUDGET, "--not-ready-reads", "2", "--show-timeline")
+
+    assert completed.returncode == 1
+    assert completed.stdout == ""
+    *timeline, outcome = completed.stderr.splitlines()
+    events = [re.fullmatch(r"\s*\d+\.\d\d s  (.*)", line).group(1) for line in timeline]
+    assert events == [
+        "read 1 starts",
+        "read 1 raises ReportNotReady",
+        "waits 0.3 s",
+        "read 2 starts",
+        "read 2 raises ReportNotReady",
+    ]
+    assert outcome == "Viewer received ReportNotReady after 2 read(s): report is still being prepared (read 2)"

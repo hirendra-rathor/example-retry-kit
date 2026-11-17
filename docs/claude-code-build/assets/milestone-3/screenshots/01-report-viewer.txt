@@ -1,0 +1,27 @@
+$ uv run --locked python examples/read_report.py --read-seconds 0.4 --delay 0.3 --time-budget 1 --not-ready-reads 1 --show-timeline
+ 0.00 s  read 1 starts
+ 0.40 s  read 1 raises ReportNotReady
+ 0.40 s  waits 0.3 s
+ 0.71 s  read 2 starts
+ 1.11 s  read 2 returns the report
+Report ready: 3 rows.
+[exit status 0]
+$ uv run --locked python examples/read_report.py --read-seconds 0.4 --delay 0.3 --time-budget 1 --not-ready-reads 2 --show-timeline
+ 0.00 s  read 1 starts
+ 0.41 s  read 1 raises ReportNotReady
+ 0.41 s  waits 0.3 s
+ 0.71 s  read 2 starts
+ 1.12 s  read 2 raises ReportNotReady
+Viewer received ReportNotReady after 2 read(s): report is still being prepared (read 2)
+[exit status 1]
+$ uv run --locked python examples/read_report.py --read-seconds 0.4 --delay 0.3 --not-ready-reads 2 --show-timeline
+ 0.00 s  read 1 starts
+ 0.41 s  read 1 raises ReportNotReady
+ 0.41 s  waits 0.3 s
+ 0.71 s  read 2 starts
+ 1.11 s  read 2 raises ReportNotReady
+ 1.11 s  waits 0.3 s
+ 1.42 s  read 3 starts
+ 1.82 s  read 3 returns the report
+Report ready: 3 rows.
+[exit status 0]

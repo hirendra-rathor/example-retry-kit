@@ -1,0 +1,22 @@
+$ uv run --locked python -m pytest -v --no-header -k 'at_1_1 or exactly_at or overruns or one_second_budget or never_read'
+============================= test session starts ==============================
+collecting ... collected 88 items / 78 deselected / 10 selected
+
+tests/test_budget.py::test_report_ready_at_1_1_seconds_is_returned_after_the_deadline PASSED [ 10%]
+tests/test_budget.py::test_report_still_preparing_at_1_1_seconds_raises_read_twos_exception_without_waiting PASSED [ 20%]
+tests/test_budget.py::test_a_retry_planned_exactly_at_the_deadline_raises_without_waiting PASSED [ 30%]
+tests/test_budget.py::test_a_wait_that_overruns_to_the_deadline_stops_the_retry PASSED [ 40%]
+tests/test_budget.py::test_a_wait_that_overruns_but_ends_before_the_deadline_still_retries PASSED [ 50%]
+tests/test_budget.py::test_without_a_budget_the_clock_is_never_read PASSED [ 60%]
+tests/test_budget.py::test_without_a_budget_or_delays_the_clock_is_never_read PASSED [ 70%]
+tests/test_budget.py::test_deadline_without_a_budget_never_reads_the_clock PASSED [ 80%]
+tests/test_consumer.py::test_viewer_with_a_one_second_budget_gets_the_report_from_read_two PASSED [ 90%]
+tests/test_consumer.py::test_viewer_with_a_one_second_budget_receives_read_twos_exception_without_another_wait PASSED [100%]
+
+====================== 10 passed, 78 deselected in 2.37s =======================
+[exit status 0]
+$ uv run --locked python -m pytest -q
+........................................................................ [ 81%]
+................                                                         [100%]
+88 passed in 4.19s
+[exit status 0]
