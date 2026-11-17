@@ -1,0 +1,5 @@
+Recovery: Report ready: 3 rows. Calls: 3.
+Exhaustion: ReportNotReady: Report not ready on read 2. Calls: 2.
+Permission: PermissionError: Report access denied. Calls: 1.
+Delayed recovery: Report ready: 3 rows. Calls: 4. Waits: [0.1, 0.2, 0.25].
+Delayed exhaustion: ReportNotReady: Report not ready on read 4. Calls: 4. Waits: [0.1, 0.2, 0.25].

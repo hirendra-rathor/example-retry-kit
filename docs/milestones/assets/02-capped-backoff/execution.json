@@ -1,0 +1,7 @@
+{
+  "command": "uv run --locked python examples/read_report.py",
+  "milestone": 2,
+  "stdout": "Recovery: Report ready: 3 rows. Calls: 3.\nExhaustion: ReportNotReady: Report not ready on read 2. Calls: 2.\nPermission: PermissionError: Report access denied. Calls: 1.\nDelayed recovery: Report ready: 3 rows. Calls: 4. Waits: [0.1, 0.2, 0.25].\nDelayed exhaustion: ReportNotReady: Report not ready on read 4. Calls: 4. Waits: [0.1, 0.2, 0.25].\n",
+  "stderr": "",
+  "returncode": 0
+}

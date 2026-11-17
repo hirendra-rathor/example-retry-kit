@@ -1,0 +1,373 @@
+{
+  "kind": "overview",
+  "title": "Milestone 2 — let the dependency recover between attempts",
+  "subtitle": "Baseline: milestone 1. Outcome rules are retained; timing becomes a caller choice. Every proposed wait has an observable admission boundary.",
+  "lanes": [
+    [
+      {
+        "title": "D1 · Give recovery time",
+        "facet": "Intentions",
+        "status": "new",
+        "body": [
+          "Application authors want to reduce immediate repeated pressure on a recovering dependency while retaining bounded retry control.",
+          "A1 seeks this outcome. Successful and final failed calls must return promptly."
+        ]
+      },
+      {
+        "title": "D2 · Schedule eligible retries",
+        "facet": "Required capabilities",
+        "status": "changed",
+        "body": [
+          "Today: every admitted retry starts immediately.",
+          "Proposed: wait before an admitted retry using a caller-selected doubling schedule; leaving delay unset retains immediate retries."
+        ]
+      },
+      {
+        "title": "D3 · Double, then cap",
+        "facet": "Rules",
+        "status": "new",
+        "body": [
+          "First wait = initial_delay. Each later wait doubles up to max_delay. The example requests 0.1, 0.2, 0.25 seconds.",
+          "Constrains D2; supplies recovery time without unbounded requested waits."
+        ]
+      },
+      {
+        "title": "D4 · Wait only between calls",
+        "facet": "Rules",
+        "status": "new",
+        "body": [
+          "No wait before the first call, after success, after an unrelated failure, or after the final allowed failure.",
+          "Constrains D2; protects prompt delivery and the existing attempt bound."
+        ]
+      },
+      {
+        "title": "D5 · Retain caller outcomes",
+        "facet": "Rules",
+        "status": "context",
+        "body": [
+          "The first call counts. Return the original successful value; propagate the original unrelated or exhausted exception.",
+          "Constrains D2. A waiting dependency failure is not an operation failure to retry."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "A1 · Application author / viewer",
+        "facet": "Participants · system context",
+        "status": "changed",
+        "body": [
+          "Today: chooses attempts and eligible exceptions.",
+          "Proposed: also chooses initial and maximum delay; can supply a waiting function to observe the schedule."
+        ]
+      },
+      {
+        "title": "A2 · Retry Kit",
+        "facet": "Architectural participants",
+        "status": "changed",
+        "body": [
+          "Today: decides eligibility and count.",
+          "Proposed: after those decisions, requests the full next delay from A4 and then invokes A3. Owns schedule progression, not the passage of time."
+        ]
+      },
+      {
+        "title": "A3 · Report operation",
+        "facet": "Architectural participants",
+        "status": "changed",
+        "body": [
+          "Callback responsibility remains caller-owned.",
+          "Today’s example becomes ready on read 3. Proposed example becomes ready on read 4, exposing all three requested waits."
+        ]
+      },
+      {
+        "title": "A4 · Waiting function",
+        "facet": "Architectural participants",
+        "status": "new",
+        "body": [
+          "Default provider: time.sleep. Injectable provider: caller-supplied wait(seconds).",
+          "Receives seconds and returns before the next call begins. Failures escape; they do not consume retry attempts."
+        ]
+      },
+      {
+        "title": "A5 · Synchronous process",
+        "facet": "Runtime units",
+        "status": "context",
+        "body": [
+          "Viewer, callback, and library share one call stack. Production waits block that thread.",
+          "No scheduler, background task, async protocol, or external service is introduced."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "C1 · RetryPolicy",
+        "facet": "Components · policy.py",
+        "status": "changed",
+        "body": [
+          "Today: validates attempts and exception types.",
+          "Proposed: also validates finite nonnegative delay values. Positive initial delay requires a maximum at least as large."
+        ]
+      },
+      {
+        "title": "C2 · retry executor",
+        "facet": "Components · execution.py",
+        "status": "changed",
+        "body": [
+          "Today: immediately loops after an eligible failure.",
+          "Proposed: check remaining attempts, take one interval, call wait for positive intervals, then loop. The operation alone stays inside the matching try block."
+        ]
+      },
+      {
+        "title": "C3 · Interval iterator",
+        "facet": "Components · waiting.py",
+        "status": "new",
+        "body": [
+          "No scheduling component exists today.",
+          "Proposed: produce the initial interval and capped doublings. Each invocation owns its iterator. Iterative capped growth avoids constructing large exponents."
+        ]
+      },
+      {
+        "title": "C4 · Report rehearsal",
+        "facet": "Components · read_report.py",
+        "status": "changed",
+        "body": [
+          "Today: immediate 3/2/1-call scenarios.",
+          "Proposed: append a 4-read recovery case and a 4-read exhaustion case; record requested waits while using real time.sleep."
+        ]
+      },
+      {
+        "title": "C5 · Public surface",
+        "facet": "Local capabilities",
+        "status": "changed",
+        "body": [
+          "Existing imports and two policy arguments remain usable. New timing fields have defaults that retain immediate retries.",
+          "No separate public scheduler or decorator is added."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "I1 · Timing configuration",
+        "facet": "Interfaces",
+        "status": "changed",
+        "body": [
+          "RetryPolicy adds initial_delay=0.0 and max_delay=None. Values are finite int/float seconds; bool is invalid.",
+          "Positive initial_delay requires max_delay >= initial_delay."
+        ]
+      },
+      {
+        "title": "I2 · retry(..., wait=...)",
+        "facet": "Interfaces",
+        "status": "changed",
+        "body": [
+          "Today: callback and policy only.",
+          "Proposed: keyword-only wait defaults to time.sleep. Existing calls remain valid. Validate callable dependencies before invoking the operation."
+        ]
+      },
+      {
+        "title": "I3 · intervals(policy)",
+        "facet": "Interfaces · internal",
+        "status": "new",
+        "body": [
+          "Iterator yields one delay for each admitted retry. Does not call an operation or sleeper.",
+          "The executor consumes it only after an eligible nonfinal failure."
+        ]
+      },
+      {
+        "title": "I4 · wait(seconds)",
+        "facet": "Exchanges",
+        "status": "new",
+        "body": [
+          "Executor supplies a positive number of seconds; provider returns or raises. Zero intervals bypass the provider.",
+          "An exception here propagates unchanged even when retry_on includes its class."
+        ]
+      },
+      {
+        "title": "I5 · operation() / result",
+        "facet": "Exchanges",
+        "status": "context",
+        "body": [
+          "Caller-owned callback still returns T or raises. Only callback exceptions are classified for retries.",
+          "Success and failure object identity, attempt counting, and cancellation behavior remain."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "S1 · Immutable timing settings",
+        "facet": "State elements",
+        "status": "changed",
+        "body": [
+          "Today: policy holds attempts and exception tuple.",
+          "Proposed: add normalized delay floats and optional maximum. Construction rejects invalid values before work starts."
+        ]
+      },
+      {
+        "title": "S2 · Invocation progress",
+        "facet": "State elements",
+        "status": "changed",
+        "body": [
+          "Today: one attempt ordinal.",
+          "Proposed: ordinal plus a fresh interval iterator. Advancing the schedule cannot add an operation call or bypass the attempt limit."
+        ]
+      },
+      {
+        "title": "S3 · Next interval",
+        "facet": "State elements",
+        "status": "new",
+        "body": [
+          "Iterator starts at initial_delay. After yielding, its next value becomes min(2 * current, max_delay).",
+          "Zero stays zero; reaching the cap stays capped. State is not stored on the reusable policy."
+        ]
+      },
+      {
+        "title": "S4 · Current exception",
+        "facet": "State elements",
+        "status": "context",
+        "body": [
+          "The active eligible failure remains available through waiting. A final failed attempt re-raises immediately, before schedule consumption.",
+          "No retry history or global waiting state is stored."
+        ]
+      },
+      {
+        "title": "S5 · Recorded waits",
+        "facet": "State elements · example/test",
+        "status": "new",
+        "body": [
+          "A test list records requested intervals without sleeping. The consumer records the same requests while actually sleeping.",
+          "Requested waits are evidence of scheduling, not a guarantee of exact wall-clock duration."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "V1 · Configuration unit checks",
+        "facet": "Tests · proposed additions",
+        "status": "new",
+        "body": [
+          "Reject negative/nonfinite delays, bool, missing positive-delay cap, and cap below initial delay.",
+          "Retain all milestone 1 policy and exception validation checks."
+        ]
+      },
+      {
+        "title": "V2 · Public scheduling scenario",
+        "facet": "Tests · proposed",
+        "status": "new",
+        "body": [
+          "Four calls succeed after waits [0.1, 0.2, 0.25]. A recording function replaces sleeping.",
+          "Assert the ordered call/wait event stream, not just the final returned value."
+        ]
+      },
+      {
+        "title": "V3 · Interval unit checks",
+        "facet": "Tests · proposed",
+        "status": "new",
+        "body": [
+          "Verify doubling, cap saturation, zero delay, repeated use, and very large finite delays.",
+          "Failure signal: a value exceeds the cap or a reused invocation starts with an advanced interval."
+        ]
+      },
+      {
+        "title": "V4 · Stop / dependency checks",
+        "facet": "Tests · proposed",
+        "status": "new",
+        "body": [
+          "Four failed calls have only three waits and preserve failure #4. Success/unrelated/final failures do not wait.",
+          "A selected sleeper error escapes once; it never restarts the operation."
+        ]
+      },
+      {
+        "title": "V5 · Consumer and wheel",
+        "facet": "Tests · changed",
+        "status": "changed",
+        "body": [
+          "Today: subprocess asserts three immediate cases.",
+          "Proposed: also assert delayed recovery/exhaustion outputs. Run the installed wheel consumer with the real waiting provider."
+        ]
+      }
+    ]
+  ],
+  "links": [
+    [
+      0,
+      0,
+      "sought by"
+    ],
+    [
+      1,
+      0,
+      "provided by"
+    ],
+    [
+      1,
+      1,
+      "implemented by"
+    ],
+    [
+      1,
+      2,
+      "exposes"
+    ],
+    [
+      1,
+      3,
+      "updates"
+    ],
+    [
+      1,
+      4,
+      "observed by"
+    ],
+    [
+      2,
+      2,
+      "offers"
+    ],
+    [
+      2,
+      3,
+      "advances"
+    ],
+    [
+      2,
+      4,
+      "checked by"
+    ],
+    [
+      3,
+      0,
+      "constrains"
+    ],
+    [
+      3,
+      3,
+      "keeps"
+    ],
+    [
+      3,
+      4,
+      "checked by"
+    ]
+  ],
+  "vertical": [
+    [
+      1,
+      0,
+      "invokes I2"
+    ],
+    [
+      1,
+      1,
+      "calls I5"
+    ],
+    [
+      2,
+      0,
+      "configures"
+    ]
+  ],
+  "rule_rows": [
+    2,
+    3,
+    4
+  ]
+}

@@ -1,0 +1,16 @@
+I'd like callers to be able to choose how long Retry Kit waits between
+attempts. A client fetching a record might give a busy service time to
+recover. The first call should still start right away. If a caller chooses
+an initial delay, each successive wait should double up to a maximum the
+caller sets. Callers who leave the delay unset should still get immediate
+retries.
+
+Take the report viewer as an example. It allows four reads and chooses an
+initial delay of 0.1 seconds and a maximum of 0.25 seconds. If the first
+three reads raise ReportNotReady, I'd expect the viewer to wait 0.1, 0.2,
+and 0.25 seconds before reads two, three, and four. As soon as a read
+succeeds, the viewer should get the report. If all four reads fail, it
+should get the fourth exception without another wait. I'd like to check
+those waits without sleeping in a test.
+
+Give me a design proposal [use $ca-design-proposal].

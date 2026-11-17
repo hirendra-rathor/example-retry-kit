@@ -1,6 +1,7 @@
 """Rehearse recovery, exhaustion, and an unrelated failure through the public API."""
 
 from retry_kit import RetryPolicy, retry
+from time import sleep
 
 
 class ReportNotReady(Exception):
@@ -27,10 +28,36 @@ def demonstrate(label: str, attempts: int, *, forbidden: bool = False) -> None:
     print(f"{label}: {outcome} Calls: {reads}.")
 
 
+def demonstrate_waits(*, never_ready: bool = False) -> None:
+    reads = 0
+    requested = []
+
+    def load_report() -> str:
+        nonlocal reads
+        reads += 1
+        if never_ready or reads < 4:
+            raise ReportNotReady(f"Report not ready on read {reads}.")
+        return "Report ready: 3 rows."
+
+    def observed_sleep(delay: float) -> None:
+        requested.append(delay)
+        sleep(delay)
+
+    policy = RetryPolicy(4, [ReportNotReady], initial_delay=0.1, max_delay=0.25)
+    try:
+        outcome = retry(load_report, policy=policy, wait=observed_sleep)
+    except ReportNotReady as error:
+        outcome = f"ReportNotReady: {error}"
+    label = "Delayed exhaustion" if never_ready else "Delayed recovery"
+    print(f"{label}: {outcome} Calls: {reads}. Waits: {requested}.")
+
+
 def main() -> None:
     demonstrate("Recovery", 3)
     demonstrate("Exhaustion", 2)
     demonstrate("Permission", 3, forbidden=True)
+    demonstrate_waits()
+    demonstrate_waits(never_ready=True)
 
 
 if __name__ == "__main__":

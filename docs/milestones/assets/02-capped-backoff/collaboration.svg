@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2115" height="1952" viewBox="0 0 2115 1952" role="img">
+<title>Milestone 2 — wait only after a retry is admitted</title><desc>Acceptance case: four reads, three temporary failures, and requested waits of 0.1, 0.2, 0.25 seconds. Waiting is a separate dependency from the operation.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="4" orient="auto"><path d="M1,0 L9,4 L1,8" fill="none" stroke="#486578" stroke-width="1.6"/></marker></defs>
+<rect width="2115" height="1952" fill="#f5f8fa"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="32" y="42" font-size="28" fill="#172b3a" font-weight="bold" text-anchor="start">Milestone 2 — wait only after a retry is admitted</text>
+<text x="32" y="76" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Acceptance case: four reads, three temporary failures, and requested waits of 0.1, 0.2, 0.25 seconds. Waiting is a separate dependency from the operation.</text>
+<rect x="1795" y="18" width="90" height="28" rx="5" fill="#22a06b"/>
+<text x="1840" y="38" font-size="14" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<rect x="1893" y="18" width="90" height="28" rx="5" fill="#3b82f6"/>
+<text x="1938" y="38" font-size="14" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<rect x="1991" y="18" width="90" height="28" rx="5" fill="#a3a3a3"/>
+<text x="2036" y="38" font-size="14" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<rect x="420" y="105" width="825" height="1742" rx="13" fill="#eaf1f5" stroke="#94a9b8" stroke-dasharray="7 5"/>
+<text x="440" y="135" font-size="18" fill="#172b3a" font-weight="bold" text-anchor="start">Retry Kit library boundary — same synchronous Python process</text>
+<rect x="35" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="302" y="158" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="343.5" y="175" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="50" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Consumer</text>
+<text x="50" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">Report viewer</text>
+<text x="50" y="237" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: supplies failure/count</text>
+<text x="50" y="259" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">choices.</text>
+<text x="50" y="286" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: adds delay choices and</text>
+<text x="50" y="308" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">receives the report after four reads.</text>
+<path d="M210 394 V1840" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<rect x="450" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="717" y="158" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="758.5" y="175" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="465" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Policy validator</text>
+<text x="465" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">RetryPolicy</text>
+<text x="465" y="237" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: validates attempts and</text>
+<text x="465" y="259" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">exceptions.</text>
+<text x="465" y="286" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: also validate</text>
+<text x="465" y="308" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">initial_delay=0.1 and max_delay=0.25.</text>
+<path d="M625 394 V1840" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<rect x="865" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1132" y="158" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="1173.5" y="175" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="880" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Library control</text>
+<text x="880" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">retry executor</text>
+<text x="880" y="237" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: eligible retries are</text>
+<text x="880" y="259" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">immediate.</text>
+<text x="880" y="286" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: retain admission checks,</text>
+<text x="880" y="308" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">consume a fresh interval iterator,</text>
+<text x="880" y="330" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">and wait only between calls.</text>
+<path d="M1040 394 V1840" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<rect x="1280" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1547" y="158" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="1588.5" y="175" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="1295" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Caller-owned callback</text>
+<text x="1295" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">load_report</text>
+<text x="1295" y="237" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: example succeeds on read 3.</text>
+<text x="1295" y="264" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: succeeds on read 4 after</text>
+<text x="1295" y="286" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">three failures. Readiness remains</text>
+<text x="1295" y="308" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">caller-owned.</text>
+<path d="M1455 394 V1840" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<rect x="1695" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1962" y="158" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2003.5" y="175" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="1710" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Waiting provider</text>
+<text x="1710" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">wait(seconds)</text>
+<text x="1710" y="237" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">time.sleep in production; recording</text>
+<text x="1710" y="259" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">function in tests. It can block</text>
+<text x="1710" y="281" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">longer than requested or fail.</text>
+<path d="M1870 394 V1840" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<polyline points="210,430 625,430" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="417.5" y="417" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">1. construct validated policy (4, 0.1, 0.25)</text>
+<polyline points="210,506 1040,506" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="625.0" y="493" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">2. retry(load_report, policy=policy, wait=provider)</text>
+<polyline points="1040,582 1455,582" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1247.5" y="569" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">3. read 1 — no initial wait</text>
+<polyline points="1455,658 1040,658" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1247.5" y="645" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">4. raises ReportNotReady #1; attempts remain</text>
+<polyline points="1040,734 1870,734" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1455.0" y="721" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">5. wait(0.1)</text>
+<polyline points="1870,810 1040,810" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1455.0" y="797" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">6. returns after waiting</text>
+<polyline points="1040,886 1455,886" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1247.5" y="873" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">7. read 2</text>
+<polyline points="1455,962 1040,962" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1247.5" y="949" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">8. raises ReportNotReady #2; attempts remain</text>
+<polyline points="1040,1038 1870,1038" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1455.0" y="1025" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">9. wait(0.2)</text>
+<polyline points="1870,1114 1040,1114" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1455.0" y="1101" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">10. returns after waiting</text>
+<polyline points="1040,1190 1455,1190" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1247.5" y="1177" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">11. read 3</text>
+<polyline points="1455,1266 1040,1266" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1247.5" y="1253" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">12. raises ReportNotReady #3; attempts remain</text>
+<polyline points="1040,1342 1870,1342" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1455.0" y="1329" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">13. wait(0.25) — capped from 0.4</text>
+<polyline points="1870,1418 1040,1418" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1455.0" y="1405" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">14. returns after waiting</text>
+<polyline points="1040,1494 1455,1494" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1247.5" y="1481" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">15. read 4</text>
+<polyline points="1455,1570 1040,1570" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1247.5" y="1557" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">16. returns the report object</text>
+<polyline points="1040,1646 210,1646" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="625.0" y="1633" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">17. returns the same report; no further wait</text>
+<text x="40" y="1882" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">If read 4 fails: re-raise failure #4 with the same three waits. There is no fourth wait.</text>
+<text x="40" y="1907" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">If waiting fails: propagate the waiting failure; do not classify it as a callback failure.</text>
+<text x="40" y="1932" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">The iterator computes intervals inside the executor; the waiting provider owns the blocking mechanism.</text>
+</g></svg>

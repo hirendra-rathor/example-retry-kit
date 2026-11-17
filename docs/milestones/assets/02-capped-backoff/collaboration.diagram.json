@@ -1,0 +1,143 @@
+{
+  "kind": "sequence",
+  "title": "Milestone 2 — wait only after a retry is admitted",
+  "subtitle": "Acceptance case: four reads, three temporary failures, and requested waits of 0.1, 0.2, 0.25 seconds. Waiting is a separate dependency from the operation.",
+  "actors": [
+    {
+      "title": "Report viewer",
+      "facet": "Consumer",
+      "status": "changed",
+      "body": [
+        "Today: supplies failure/count choices.",
+        "Proposed: adds delay choices and receives the report after four reads."
+      ]
+    },
+    {
+      "title": "RetryPolicy",
+      "facet": "Policy validator",
+      "status": "changed",
+      "body": [
+        "Today: validates attempts and exceptions.",
+        "Proposed: also validate initial_delay=0.1 and max_delay=0.25."
+      ]
+    },
+    {
+      "title": "retry executor",
+      "facet": "Library control",
+      "status": "changed",
+      "body": [
+        "Today: eligible retries are immediate.",
+        "Proposed: retain admission checks, consume a fresh interval iterator, and wait only between calls."
+      ]
+    },
+    {
+      "title": "load_report",
+      "facet": "Caller-owned callback",
+      "status": "changed",
+      "body": [
+        "Today: example succeeds on read 3.",
+        "Proposed: succeeds on read 4 after three failures. Readiness remains caller-owned."
+      ]
+    },
+    {
+      "title": "wait(seconds)",
+      "facet": "Waiting provider",
+      "status": "new",
+      "body": [
+        "time.sleep in production; recording function in tests. It can block longer than requested or fail."
+      ]
+    }
+  ],
+  "events": [
+    [
+      0,
+      1,
+      "construct validated policy (4, 0.1, 0.25)"
+    ],
+    [
+      0,
+      2,
+      "retry(load_report, policy=policy, wait=provider)"
+    ],
+    [
+      2,
+      3,
+      "read 1 — no initial wait"
+    ],
+    [
+      3,
+      2,
+      "raises ReportNotReady #1; attempts remain"
+    ],
+    [
+      2,
+      4,
+      "wait(0.1)"
+    ],
+    [
+      4,
+      2,
+      "returns after waiting"
+    ],
+    [
+      2,
+      3,
+      "read 2"
+    ],
+    [
+      3,
+      2,
+      "raises ReportNotReady #2; attempts remain"
+    ],
+    [
+      2,
+      4,
+      "wait(0.2)"
+    ],
+    [
+      4,
+      2,
+      "returns after waiting"
+    ],
+    [
+      2,
+      3,
+      "read 3"
+    ],
+    [
+      3,
+      2,
+      "raises ReportNotReady #3; attempts remain"
+    ],
+    [
+      2,
+      4,
+      "wait(0.25) — capped from 0.4"
+    ],
+    [
+      4,
+      2,
+      "returns after waiting"
+    ],
+    [
+      2,
+      3,
+      "read 4"
+    ],
+    [
+      3,
+      2,
+      "returns the report object"
+    ],
+    [
+      2,
+      0,
+      "returns the same report; no further wait"
+    ]
+  ],
+  "notes": [
+    "If read 4 fails: re-raise failure #4 with the same three waits. There is no fourth wait.",
+    "If waiting fails: propagate the waiting failure; do not classify it as a callback failure.",
+    "The iterator computes intervals inside the executor; the waiting provider owns the blocking mechanism."
+  ]
+}

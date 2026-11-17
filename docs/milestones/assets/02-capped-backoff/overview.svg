@@ -1,0 +1,387 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2540" height="1750" viewBox="0 0 2540 1750" role="img">
+<title>Milestone 2 — let the dependency recover between attempts</title><desc>Baseline: milestone 1. Outcome rules are retained; timing becomes a caller choice. Every proposed wait has an observable admission boundary.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="4" orient="auto"><path d="M1,0 L9,4 L1,8" fill="none" stroke="#486578" stroke-width="1.6"/></marker></defs>
+<rect width="2540" height="1750" fill="#f5f8fa"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="32" y="42" font-size="28" fill="#172b3a" font-weight="bold" text-anchor="start">Milestone 2 — let the dependency recover between attempts</text>
+<text x="32" y="76" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Baseline: milestone 1. Outcome rules are retained; timing becomes a caller choice. Every proposed wait has an observable admission boundary.</text>
+<rect x="2220" y="18" width="90" height="28" rx="5" fill="#22a06b"/>
+<text x="2265" y="38" font-size="14" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<rect x="2318" y="18" width="90" height="28" rx="5" fill="#3b82f6"/>
+<text x="2363" y="38" font-size="14" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<rect x="2416" y="18" width="90" height="28" rx="5" fill="#a3a3a3"/>
+<text x="2461" y="38" font-size="14" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<rect x="30" y="103" width="400" height="1605" rx="10" fill="#eaf0f4"/>
+<text x="220" y="138" font-size="22" fill="#172b3a" font-weight="bold" text-anchor="middle">Domain</text>
+<rect x="40" y="170" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="327" y="170" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="368.5" y="187" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="55" y="193" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Intentions</text>
+<text x="55" y="222" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">D1 · Give recovery time</text>
+<text x="55" y="249" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Application authors want to reduce</text>
+<text x="55" y="271" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">immediate repeated pressure on a</text>
+<text x="55" y="293" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">recovering dependency while retaining</text>
+<text x="55" y="315" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">bounded retry control.</text>
+<text x="55" y="342" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">A1 seeks this outcome. Successful and</text>
+<text x="55" y="364" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">final failed calls must return</text>
+<text x="55" y="386" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">promptly.</text>
+<rect x="40" y="472" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="327" y="472" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="368.5" y="489" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="55" y="495" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Required capabilities</text>
+<text x="55" y="524" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">D2 · Schedule eligible retries</text>
+<text x="55" y="551" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: every admitted retry starts</text>
+<text x="55" y="573" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">immediately.</text>
+<text x="55" y="600" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: wait before an admitted retry</text>
+<text x="55" y="622" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">using a caller-selected doubling</text>
+<text x="55" y="644" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">schedule; leaving delay unset retains</text>
+<text x="55" y="666" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">immediate retries.</text>
+<rect x="40" y="774" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="327" y="774" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="368.5" y="791" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="55" y="797" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Rules</text>
+<text x="55" y="826" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">D3 · Double, then cap</text>
+<text x="55" y="853" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">First wait = initial_delay. Each later</text>
+<text x="55" y="875" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">wait doubles up to max_delay. The</text>
+<text x="55" y="897" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">example requests 0.1, 0.2, 0.25</text>
+<text x="55" y="919" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">seconds.</text>
+<text x="55" y="946" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Constrains D2; supplies recovery time</text>
+<text x="55" y="968" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">without unbounded requested waits.</text>
+<rect x="40" y="1076" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="327" y="1076" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="368.5" y="1093" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="55" y="1099" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Rules</text>
+<text x="55" y="1128" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">D4 · Wait only between calls</text>
+<text x="55" y="1155" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">No wait before the first call, after</text>
+<text x="55" y="1177" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">success, after an unrelated failure, or</text>
+<text x="55" y="1199" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">after the final allowed failure.</text>
+<text x="55" y="1226" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Constrains D2; protects prompt delivery</text>
+<text x="55" y="1248" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">and the existing attempt bound.</text>
+<rect x="40" y="1378" width="370" height="254" rx="9" fill="#fff" stroke="#a3a3a3" stroke-width="2"/>
+<rect x="327" y="1378" width="83" height="23" rx="3" fill="#a3a3a3"/>
+<text x="368.5" y="1395" font-size="13" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<text x="55" y="1401" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Rules</text>
+<text x="55" y="1430" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">D5 · Retain caller outcomes</text>
+<text x="55" y="1457" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">The first call counts. Return the</text>
+<text x="55" y="1479" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">original successful value; propagate</text>
+<text x="55" y="1501" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">the original unrelated or exhausted</text>
+<text x="55" y="1523" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">exception.</text>
+<text x="55" y="1550" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Constrains D2. A waiting dependency</text>
+<text x="55" y="1572" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">failure is not an operation failure to</text>
+<text x="55" y="1594" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">retry.</text>
+<rect x="447" y="103" width="400" height="1605" rx="10" fill="#edf3f0"/>
+<text x="637" y="138" font-size="22" fill="#172b3a" font-weight="bold" text-anchor="middle">Architecture</text>
+<rect x="457" y="170" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="744" y="170" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="785.5" y="187" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="472" y="193" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Participants · system context</text>
+<text x="472" y="222" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">A1 · Application author / viewer</text>
+<text x="472" y="249" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: chooses attempts and eligible</text>
+<text x="472" y="271" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">exceptions.</text>
+<text x="472" y="298" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: also chooses initial and</text>
+<text x="472" y="320" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">maximum delay; can supply a waiting</text>
+<text x="472" y="342" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">function to observe the schedule.</text>
+<rect x="457" y="472" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="744" y="472" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="785.5" y="489" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="472" y="495" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Architectural participants</text>
+<text x="472" y="524" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">A2 · Retry Kit</text>
+<text x="472" y="551" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: decides eligibility and count.</text>
+<text x="472" y="578" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: after those decisions,</text>
+<text x="472" y="600" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">requests the full next delay from A4</text>
+<text x="472" y="622" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">and then invokes A3. Owns schedule</text>
+<text x="472" y="644" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">progression, not the passage of time.</text>
+<rect x="457" y="774" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="744" y="774" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="785.5" y="791" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="472" y="797" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Architectural participants</text>
+<text x="472" y="826" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">A3 · Report operation</text>
+<text x="472" y="853" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Callback responsibility remains caller-</text>
+<text x="472" y="875" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">owned.</text>
+<text x="472" y="902" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Today’s example becomes ready on read</text>
+<text x="472" y="924" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">3. Proposed example becomes ready on</text>
+<text x="472" y="946" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">read 4, exposing all three requested</text>
+<text x="472" y="968" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">waits.</text>
+<rect x="457" y="1076" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="744" y="1076" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="785.5" y="1093" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="472" y="1099" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Architectural participants</text>
+<text x="472" y="1128" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">A4 · Waiting function</text>
+<text x="472" y="1155" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Default provider: time.sleep.</text>
+<text x="472" y="1177" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Injectable provider: caller-supplied</text>
+<text x="472" y="1199" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">wait(seconds).</text>
+<text x="472" y="1226" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Receives seconds and returns before the</text>
+<text x="472" y="1248" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">next call begins. Failures escape; they</text>
+<text x="472" y="1270" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">do not consume retry attempts.</text>
+<rect x="457" y="1378" width="370" height="254" rx="9" fill="#fff" stroke="#a3a3a3" stroke-width="2"/>
+<rect x="744" y="1378" width="83" height="23" rx="3" fill="#a3a3a3"/>
+<text x="785.5" y="1395" font-size="13" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<text x="472" y="1401" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Runtime units</text>
+<text x="472" y="1430" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">A5 · Synchronous process</text>
+<text x="472" y="1457" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Viewer, callback, and library share one</text>
+<text x="472" y="1479" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">call stack. Production waits block that</text>
+<text x="472" y="1501" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">thread.</text>
+<text x="472" y="1528" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">No scheduler, background task, async</text>
+<text x="472" y="1550" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">protocol, or external service is</text>
+<text x="472" y="1572" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">introduced.</text>
+<rect x="864" y="103" width="400" height="1605" rx="10" fill="#eaf0f4"/>
+<text x="1054" y="138" font-size="22" fill="#172b3a" font-weight="bold" text-anchor="middle">Subsystem Design</text>
+<rect x="874" y="170" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1161" y="170" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="1202.5" y="187" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="889" y="193" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Components · policy.py</text>
+<text x="889" y="222" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">C1 · RetryPolicy</text>
+<text x="889" y="249" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: validates attempts and exception</text>
+<text x="889" y="271" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">types.</text>
+<text x="889" y="298" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: also validates finite</text>
+<text x="889" y="320" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">nonnegative delay values. Positive</text>
+<text x="889" y="342" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">initial delay requires a maximum at</text>
+<text x="889" y="364" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">least as large.</text>
+<rect x="874" y="472" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1161" y="472" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="1202.5" y="489" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="889" y="495" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Components · execution.py</text>
+<text x="889" y="524" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">C2 · retry executor</text>
+<text x="889" y="551" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: immediately loops after an</text>
+<text x="889" y="573" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">eligible failure.</text>
+<text x="889" y="600" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: check remaining attempts,</text>
+<text x="889" y="622" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">take one interval, call wait for</text>
+<text x="889" y="644" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">positive intervals, then loop. The</text>
+<text x="889" y="666" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">operation alone stays inside the</text>
+<text x="889" y="688" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">matching try block.</text>
+<rect x="874" y="774" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1161" y="774" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="1202.5" y="791" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="889" y="797" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Components · waiting.py</text>
+<text x="889" y="826" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">C3 · Interval iterator</text>
+<text x="889" y="853" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">No scheduling component exists today.</text>
+<text x="889" y="880" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: produce the initial interval</text>
+<text x="889" y="902" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">and capped doublings. Each invocation</text>
+<text x="889" y="924" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">owns its iterator. Iterative capped</text>
+<text x="889" y="946" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">growth avoids constructing large</text>
+<text x="889" y="968" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">exponents.</text>
+<rect x="874" y="1076" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1161" y="1076" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="1202.5" y="1093" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="889" y="1099" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Components · read_report.py</text>
+<text x="889" y="1128" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">C4 · Report rehearsal</text>
+<text x="889" y="1155" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: immediate 3/2/1-call scenarios.</text>
+<text x="889" y="1182" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: append a 4-read recovery case</text>
+<text x="889" y="1204" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">and a 4-read exhaustion case; record</text>
+<text x="889" y="1226" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">requested waits while using real</text>
+<text x="889" y="1248" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">time.sleep.</text>
+<rect x="874" y="1378" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1161" y="1378" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="1202.5" y="1395" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="889" y="1401" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Local capabilities</text>
+<text x="889" y="1430" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">C5 · Public surface</text>
+<text x="889" y="1457" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Existing imports and two policy</text>
+<text x="889" y="1479" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">arguments remain usable. New timing</text>
+<text x="889" y="1501" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">fields have defaults that retain</text>
+<text x="889" y="1523" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">immediate retries.</text>
+<text x="889" y="1550" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">No separate public scheduler or</text>
+<text x="889" y="1572" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">decorator is added.</text>
+<rect x="1281" y="103" width="400" height="1605" rx="10" fill="#edf3f0"/>
+<text x="1471" y="138" font-size="22" fill="#172b3a" font-weight="bold" text-anchor="middle">Subsystem Interfaces</text>
+<rect x="1291" y="170" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1578" y="170" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="1619.5" y="187" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="1306" y="193" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Interfaces</text>
+<text x="1306" y="222" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">I1 · Timing configuration</text>
+<text x="1306" y="249" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">RetryPolicy adds initial_delay=0.0 and</text>
+<text x="1306" y="271" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">max_delay=None. Values are finite</text>
+<text x="1306" y="293" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">int/float seconds; bool is invalid.</text>
+<text x="1306" y="320" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Positive initial_delay requires</text>
+<text x="1306" y="342" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">max_delay &gt;= initial_delay.</text>
+<rect x="1291" y="472" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1578" y="472" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="1619.5" y="489" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="1306" y="495" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Interfaces</text>
+<text x="1306" y="524" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">I2 · retry(..., wait=...)</text>
+<text x="1306" y="551" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: callback and policy only.</text>
+<text x="1306" y="578" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: keyword-only wait defaults to</text>
+<text x="1306" y="600" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">time.sleep. Existing calls remain</text>
+<text x="1306" y="622" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">valid. Validate callable dependencies</text>
+<text x="1306" y="644" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">before invoking the operation.</text>
+<rect x="1291" y="774" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1578" y="774" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="1619.5" y="791" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="1306" y="797" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Interfaces · internal</text>
+<text x="1306" y="826" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">I3 · intervals(policy)</text>
+<text x="1306" y="853" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Iterator yields one delay for each</text>
+<text x="1306" y="875" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">admitted retry. Does not call an</text>
+<text x="1306" y="897" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">operation or sleeper.</text>
+<text x="1306" y="924" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">The executor consumes it only after an</text>
+<text x="1306" y="946" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">eligible nonfinal failure.</text>
+<rect x="1291" y="1076" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1578" y="1076" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="1619.5" y="1093" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="1306" y="1099" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Exchanges</text>
+<text x="1306" y="1128" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">I4 · wait(seconds)</text>
+<text x="1306" y="1155" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Executor supplies a positive number of</text>
+<text x="1306" y="1177" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">seconds; provider returns or raises.</text>
+<text x="1306" y="1199" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Zero intervals bypass the provider.</text>
+<text x="1306" y="1226" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">An exception here propagates unchanged</text>
+<text x="1306" y="1248" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">even when retry_on includes its class.</text>
+<rect x="1291" y="1378" width="370" height="254" rx="9" fill="#fff" stroke="#a3a3a3" stroke-width="2"/>
+<rect x="1578" y="1378" width="83" height="23" rx="3" fill="#a3a3a3"/>
+<text x="1619.5" y="1395" font-size="13" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<text x="1306" y="1401" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Exchanges</text>
+<text x="1306" y="1430" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">I5 · operation() / result</text>
+<text x="1306" y="1457" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Caller-owned callback still returns T</text>
+<text x="1306" y="1479" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">or raises. Only callback exceptions are</text>
+<text x="1306" y="1501" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">classified for retries.</text>
+<text x="1306" y="1528" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Success and failure object identity,</text>
+<text x="1306" y="1550" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">attempt counting, and cancellation</text>
+<text x="1306" y="1572" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">behavior remain.</text>
+<rect x="1698" y="103" width="400" height="1605" rx="10" fill="#eaf0f4"/>
+<text x="1888" y="138" font-size="22" fill="#172b3a" font-weight="bold" text-anchor="middle">State Management</text>
+<rect x="1708" y="170" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1995" y="170" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="2036.5" y="187" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="1723" y="193" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">State elements</text>
+<text x="1723" y="222" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">S1 · Immutable timing settings</text>
+<text x="1723" y="249" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: policy holds attempts and</text>
+<text x="1723" y="271" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">exception tuple.</text>
+<text x="1723" y="298" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: add normalized delay floats</text>
+<text x="1723" y="320" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">and optional maximum. Construction</text>
+<text x="1723" y="342" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">rejects invalid values before work</text>
+<text x="1723" y="364" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">starts.</text>
+<rect x="1708" y="472" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1995" y="472" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="2036.5" y="489" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="1723" y="495" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">State elements</text>
+<text x="1723" y="524" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">S2 · Invocation progress</text>
+<text x="1723" y="551" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: one attempt ordinal.</text>
+<text x="1723" y="578" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: ordinal plus a fresh interval</text>
+<text x="1723" y="600" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">iterator. Advancing the schedule cannot</text>
+<text x="1723" y="622" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">add an operation call or bypass the</text>
+<text x="1723" y="644" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">attempt limit.</text>
+<rect x="1708" y="774" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1995" y="774" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2036.5" y="791" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="1723" y="797" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">State elements</text>
+<text x="1723" y="826" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">S3 · Next interval</text>
+<text x="1723" y="853" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Iterator starts at initial_delay. After</text>
+<text x="1723" y="875" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">yielding, its next value becomes min(2</text>
+<text x="1723" y="897" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">* current, max_delay).</text>
+<text x="1723" y="924" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Zero stays zero; reaching the cap stays</text>
+<text x="1723" y="946" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">capped. State is not stored on the</text>
+<text x="1723" y="968" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">reusable policy.</text>
+<rect x="1708" y="1076" width="370" height="254" rx="9" fill="#fff" stroke="#a3a3a3" stroke-width="2"/>
+<rect x="1995" y="1076" width="83" height="23" rx="3" fill="#a3a3a3"/>
+<text x="2036.5" y="1093" font-size="13" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<text x="1723" y="1099" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">State elements</text>
+<text x="1723" y="1128" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">S4 · Current exception</text>
+<text x="1723" y="1155" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">The active eligible failure remains</text>
+<text x="1723" y="1177" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">available through waiting. A final</text>
+<text x="1723" y="1199" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">failed attempt re-raises immediately,</text>
+<text x="1723" y="1221" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">before schedule consumption.</text>
+<text x="1723" y="1248" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">No retry history or global waiting</text>
+<text x="1723" y="1270" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">state is stored.</text>
+<rect x="1708" y="1378" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1995" y="1378" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2036.5" y="1395" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="1723" y="1401" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">State elements · example/test</text>
+<text x="1723" y="1430" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">S5 · Recorded waits</text>
+<text x="1723" y="1457" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">A test list records requested intervals</text>
+<text x="1723" y="1479" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">without sleeping. The consumer records</text>
+<text x="1723" y="1501" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">the same requests while actually</text>
+<text x="1723" y="1523" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">sleeping.</text>
+<text x="1723" y="1550" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Requested waits are evidence of</text>
+<text x="1723" y="1572" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">scheduling, not a guarantee of exact</text>
+<text x="1723" y="1594" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">wall-clock duration.</text>
+<rect x="2115" y="103" width="400" height="1605" rx="10" fill="#edf3f0"/>
+<text x="2305" y="138" font-size="22" fill="#172b3a" font-weight="bold" text-anchor="middle">Verification</text>
+<rect x="2125" y="170" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="2412" y="170" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2453.5" y="187" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="2140" y="193" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Tests · proposed additions</text>
+<text x="2140" y="222" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">V1 · Configuration unit checks</text>
+<text x="2140" y="249" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Reject negative/nonfinite delays, bool,</text>
+<text x="2140" y="271" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">missing positive-delay cap, and cap</text>
+<text x="2140" y="293" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">below initial delay.</text>
+<text x="2140" y="320" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Retain all milestone 1 policy and</text>
+<text x="2140" y="342" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">exception validation checks.</text>
+<rect x="2125" y="472" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="2412" y="472" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2453.5" y="489" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="2140" y="495" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Tests · proposed</text>
+<text x="2140" y="524" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">V2 · Public scheduling scenario</text>
+<text x="2140" y="551" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Four calls succeed after waits [0.1,</text>
+<text x="2140" y="573" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">0.2, 0.25]. A recording function</text>
+<text x="2140" y="595" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">replaces sleeping.</text>
+<text x="2140" y="622" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Assert the ordered call/wait event</text>
+<text x="2140" y="644" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">stream, not just the final returned</text>
+<text x="2140" y="666" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">value.</text>
+<rect x="2125" y="774" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="2412" y="774" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2453.5" y="791" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="2140" y="797" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Tests · proposed</text>
+<text x="2140" y="826" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">V3 · Interval unit checks</text>
+<text x="2140" y="853" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Verify doubling, cap saturation, zero</text>
+<text x="2140" y="875" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">delay, repeated use, and very large</text>
+<text x="2140" y="897" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">finite delays.</text>
+<text x="2140" y="924" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Failure signal: a value exceeds the cap</text>
+<text x="2140" y="946" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">or a reused invocation starts with an</text>
+<text x="2140" y="968" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">advanced interval.</text>
+<rect x="2125" y="1076" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="2412" y="1076" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2453.5" y="1093" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="2140" y="1099" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Tests · proposed</text>
+<text x="2140" y="1128" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">V4 · Stop / dependency checks</text>
+<text x="2140" y="1155" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Four failed calls have only three waits</text>
+<text x="2140" y="1177" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">and preserve failure #4.</text>
+<text x="2140" y="1199" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Success/unrelated/final failures do not</text>
+<text x="2140" y="1221" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">wait.</text>
+<text x="2140" y="1248" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">A selected sleeper error escapes once;</text>
+<text x="2140" y="1270" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">it never restarts the operation.</text>
+<rect x="2125" y="1378" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="2412" y="1378" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="2453.5" y="1395" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="2140" y="1401" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Tests · changed</text>
+<text x="2140" y="1430" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">V5 · Consumer and wheel</text>
+<text x="2140" y="1457" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: subprocess asserts three</text>
+<text x="2140" y="1479" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">immediate cases.</text>
+<text x="2140" y="1506" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: also assert delayed</text>
+<text x="2140" y="1528" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">recovery/exhaustion outputs. Run the</text>
+<text x="2140" y="1550" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">installed wheel consumer with the real</text>
+<text x="2140" y="1572" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">waiting provider.</text>
+<polyline points="315,424 315,451 552,451 552,424" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="433" y="444" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">sought by</text>
+<polyline points="315,726 315,753 552,753 552,726" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="433" y="746" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">provided by</text>
+<polyline points="732,726 732,753 969,753 969,726" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="850" y="746" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">implemented by</text>
+<polyline points="1149,726 1149,753 1386,753 1386,726" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1267" y="746" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">exposes</text>
+<polyline points="1566,726 1566,753 1803,753 1803,726" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1684" y="746" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">updates</text>
+<polyline points="1983,726 1983,753 2220,753 2220,726" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="2101" y="746" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">observed by</text>
+<polyline points="1149,1028 1149,1055 1386,1055 1386,1028" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1267" y="1048" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">offers</text>
+<polyline points="1566,1028 1566,1055 1803,1055 1803,1028" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1684" y="1048" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">advances</text>
+<polyline points="1983,1028 1983,1055 2220,1055 2220,1028" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="2101" y="1048" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">checked by</text>
+<polyline points="315,1330 315,1357 552,1357 552,1330" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="433" y="1350" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">constrains</text>
+<polyline points="1566,1330 1566,1357 1803,1357 1803,1330" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1684" y="1350" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">keeps</text>
+<polyline points="1983,1330 1983,1357 2220,1357 2220,1330" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="2101" y="1350" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">checked by</text>
+<polyline points="642,424 642,472" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="734" y="451" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">invokes I2</text>
+<polyline points="642,726 642,774" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="734" y="753" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">calls I5</text>
+<polyline points="1059,424 1059,472" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1151" y="451" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">configures</text>
+<polyline points="40,900 7,900 7,598 40,598" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="0" y="0" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round"></text>
+<polyline points="40,1202 16,1202 16,598 40,598" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="0" y="0" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round"></text>
+<polyline points="40,1504 25,1504 25,598 40,598" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="0" y="0" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round"></text>
+<text x="40" y="1734" font-size="16" fill="#172b3a" font-weight="normal" text-anchor="start">Domain rule arrows constrain D2. Proposed tests become evidence only after execution; the proposal gives their commands and prerequisites.</text>
+</g></svg>

@@ -24,5 +24,7 @@ def test_report_consumer_runs_outside_the_checkout(tmp_path: Path) -> None:
         "Recovery: Report ready: 3 rows. Calls: 3.\n"
         "Exhaustion: ReportNotReady: Report not ready on read 2. Calls: 2.\n"
         "Permission: PermissionError: Report access denied. Calls: 1.\n"
+        "Delayed recovery: Report ready: 3 rows. Calls: 4. Waits: [0.1, 0.2, 0.25].\n"
+        "Delayed exhaustion: ReportNotReady: Report not ready on read 4. Calls: 4. Waits: [0.1, 0.2, 0.25].\n"
     )
     assert completed.stderr == ""

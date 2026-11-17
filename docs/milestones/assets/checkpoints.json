@@ -5,5 +5,12 @@
     "title": "Bounded retries",
     "subject": "Implement milestone 1: retry a caller's operation",
     "tests": 31
+  },
+  {
+    "number": 2,
+    "slug": "02-capped-backoff",
+    "title": "Capped backoff",
+    "subject": "Implement milestone 2: let callers choose how long to wait",
+    "tests": 63
   }
 ]

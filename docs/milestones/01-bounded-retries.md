@@ -102,4 +102,4 @@ uv run --locked python -m pytest -q
 
 [Original prompt](assets/01-bounded-retries/prompt.txt) · [Saved proposal](assets/01-bounded-retries/proposal.md) · [Saved implementation report](assets/01-bounded-retries/implementation.md)
 
-[Recording index](README.md)
+[Recording index](README.md) · [Next milestone](02-capped-backoff.md)
