@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1010" width="1500" height="1010" role="img" aria-labelledby="title desc" font-family="Arial, Helvetica, sans-serif">
+<title id="title">Retry Kit collaboration for the report viewer</title><desc id="desc">Sequence of one retry() call in the caller&#x27;s thread. The report viewer builds a RetryPolicy with retry_on ReportNotReady and max_attempts 3, then calls retry with load_report. The attempt loop calls load_report; reads 1 and 2 raise ReportNotReady and the loop calls again because the type is listed and attempts remain; read 3 returns Report ready: 3 rows, which retry returns. With max_attempts 2 the loop re-raises the second ReportNotReady. A PermissionError from read 1 is not listed and reaches the viewer after one call. Gray means context, blue means changed, green means new.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#435970"/></marker><marker id="arrow-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#22a06b"/></marker><marker id="arrow-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#3b82f6"/></marker><marker id="arrow-red" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#dc2626"/></marker></defs>
+<rect width="1500" height="1010" fill="white"/>
+<text x="28" y="43" font-size="29" font-weight="700" fill="#182f46" text-anchor="start">Retry Kit collaboration: the report is ready on read 3</text>
+<text x="28" y="75" font-size="17" font-weight="400" fill="#182f46" text-anchor="start">One Python process and one thread  •  retry() calls the viewer&#x27;s load_report inline and consults the policy after each failure.</text>
+<rect x="1436" y="20" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="1458.5" y="36" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<rect x="1353" y="20" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="1390.5" y="36" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<rect x="1275" y="20" width="70" height="23" rx="4" fill="#a3a3a3"/>
+<text x="1310.0" y="36" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">context</text>
+<rect x="30" y="105" width="570" height="865" rx="10" fill="#fbfcfd" stroke="#8a99a8" stroke-width="1.5" stroke-dasharray="7 5"/>
+<text x="46" y="128" font-size="14" font-weight="700" fill="#48617a" text-anchor="start">Report viewer application (consumer code)</text>
+<rect x="630" y="105" width="840" height="865" rx="10" fill="#f6fbf8" stroke="#8a99a8" stroke-width="1.5" stroke-dasharray="7 5"/>
+<text x="646" y="128" font-size="14" font-weight="700" fill="#48617a" text-anchor="start">Retry Kit library (retry_kit package)</text>
+<rect x="55.0" y="145" width="230" height="92" rx="7" fill="#f9fbfd" stroke="#3b82f6" stroke-width="2.6"/>
+<rect x="200.0" y="134" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="237.5" y="150" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<text x="67.0" y="167" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">PARTICIPANT</text>
+<text x="67.0" y="191" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">Report viewer</text>
+<text x="67.0" y="211" font-size="13.5" font-weight="400" fill="#586674" text-anchor="start">Today: one direct read.</text>
+<text x="67.0" y="230" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">Proposed: calls retry().</text>
+<path d="M170 237 V955" stroke="#9aa8b6" stroke-width="1.5" stroke-dasharray="4 4"/>
+<rect x="335.0" y="145" width="230" height="92" rx="7" fill="#f9fbfd" stroke="#a3a3a3" stroke-width="2.6"/>
+<rect x="485.0" y="134" width="70" height="23" rx="4" fill="#a3a3a3"/>
+<text x="520.0" y="150" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">context</text>
+<text x="347.0" y="167" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">OPERATION</text>
+<text x="347.0" y="191" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">load_report</text>
+<text x="347.0" y="211" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">Viewer&#x27;s read function;</text>
+<text x="347.0" y="230" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">report ready after read 2.</text>
+<path d="M450 237 V955" stroke="#9aa8b6" stroke-width="1.5" stroke-dasharray="4 4"/>
+<rect x="735.0" y="145" width="230" height="92" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="910.0" y="134" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="932.5" y="150" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="747.0" y="167" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">COMPONENT</text>
+<text x="747.0" y="191" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">retry() attempt loop</text>
+<text x="747.0" y="211" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">retry_kit._retry</text>
+<text x="747.0" y="230" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">Calls, decides, repeats.</text>
+<path d="M850 237 V955" stroke="#9aa8b6" stroke-width="1.5" stroke-dasharray="4 4"/>
+<rect x="1155.0" y="145" width="230" height="92" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="1330.0" y="134" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="1352.5" y="150" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="1167.0" y="167" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">COMPONENT</text>
+<text x="1167.0" y="191" font-size="19" font-weight="700" fill="#182f46" text-anchor="start">RetryPolicy</text>
+<text x="1167.0" y="211" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">retry_kit._policy</text>
+<text x="1167.0" y="230" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">Validated, then frozen.</text>
+<path d="M1270 237 V955" stroke="#9aa8b6" stroke-width="1.5" stroke-dasharray="4 4"/>
+<path d="M170 262 H1267" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="489.5" y="241.5" width="460.9" height="17.5" rx="3" fill="#ffffff"/><text x="720.0" y="254" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">RetryPolicy(retry_on=(ReportNotReady,), max_attempts=3)</text>
+<path d="M1270 292 H173" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="621.9" y="271.0" width="196.2" height="18.0" rx="3" fill="#ffffff"/><text x="720.0" y="284" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">validated, frozen policy</text>
+<path d="M170 336 H847" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="370.1" y="315.5" width="279.8" height="17.5" rx="3" fill="#ffffff"/><text x="510.0" y="328" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">retry(load_report, policy=policy)</text>
+<path d="M850 384 H453" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="567.8" y="363.5" width="164.5" height="17.5" rx="3" fill="#ffffff"/><text x="650.0" y="376" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">read 1: operation()</text>
+<path d="M450 418 H847" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="544.1" y="397.0" width="211.8" height="18.0" rx="3" fill="#ffffff"/><text x="650.0" y="410" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">raises ReportNotReady (#1)</text>
+<path d="M850 436 H1267" stroke="#7c8fa3" stroke-width="1.4" stroke-dasharray="3 4" fill="none" marker-end="url(#arrow)"/>
+<rect x="1014.1" y="418.0" width="211.8" height="17.0" rx="3" fill="#ffffff"/><text x="1120.0" y="430" font-size="13" font-weight="600" fill="#4a5f74" text-anchor="middle">reads retry_on, max_attempts</text>
+<rect x="866" y="446" width="360" height="31" rx="6" fill="#ffffff" stroke="#9aa8b6" stroke-width="1.4"/>
+<text x="876" y="467" font-size="14" font-weight="400" fill="#192e42" text-anchor="start">Listed type; attempt 1 &lt; 3 → call again.</text>
+<path d="M850 507 H453" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="567.8" y="486.5" width="164.5" height="17.5" rx="3" fill="#ffffff"/><text x="650.0" y="499" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">read 2: operation()</text>
+<path d="M450 541 H847" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="544.1" y="520.0" width="211.8" height="18.0" rx="3" fill="#ffffff"/><text x="650.0" y="533" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">raises ReportNotReady (#2)</text>
+<path d="M850 559 H1267" stroke="#7c8fa3" stroke-width="1.4" stroke-dasharray="3 4" fill="none" marker-end="url(#arrow)"/>
+<rect x="1014.1" y="541.0" width="211.8" height="17.0" rx="3" fill="#ffffff"/><text x="1120.0" y="553" font-size="13" font-weight="600" fill="#4a5f74" text-anchor="middle">reads retry_on, max_attempts</text>
+<rect x="866" y="569" width="360" height="69" rx="6" fill="#ffffff" stroke="#9aa8b6" stroke-width="1.4"/>
+<text x="876" y="590" font-size="14" font-weight="400" fill="#192e42" text-anchor="start">Listed type; attempt 2 &lt; 3 → call again.</text>
+<text x="876" y="609" font-size="14" font-weight="700" fill="#192e42" text-anchor="start">With max_attempts=2: 2 is the limit →</text>
+<text x="876" y="628" font-size="14" font-weight="700" fill="#192e42" text-anchor="start">re-raise #2 to the viewer; no read 3.</text>
+<path d="M850 608 H173" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#arrow-blue)"/>
+<rect x="172.7" y="587.0" width="274.6" height="18.0" rx="3" fill="#ffffff"/><text x="310.0" y="600" font-size="14" font-weight="700" fill="#1d4ed8" text-anchor="middle">[max_attempts=2] ReportNotReady #2</text>
+<path d="M850 664 H453" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="567.8" y="643.5" width="164.5" height="17.5" rx="3" fill="#ffffff"/><text x="650.0" y="656" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">read 3: operation()</text>
+<path d="M450 698 H847" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="524.5" y="677.0" width="251.0" height="18.0" rx="3" fill="#ffffff"/><text x="650.0" y="690" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">returns &quot;Report ready: 3 rows.&quot;</text>
+<path d="M850 738 H173" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="298.2" y="717.0" width="423.5" height="18.0" rx="3" fill="#ffffff"/><text x="510.0" y="730" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">retry() returns &quot;Report ready: 3 rows.&quot; after 3 calls</text>
+<rect x="48" y="770" width="1404" height="179" rx="6" fill="#fff8f1" fill-opacity="0.6" stroke="#b7791f" stroke-width="1.4"/>
+<rect x="48" y="770" width="250" height="24" rx="6" fill="#f6e3c8"/>
+<text x="58" y="787" font-size="13" font-weight="700" fill="#7a4a0c" text-anchor="start">alternative: unlisted exception</text>
+<path d="M850 822 H453" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="567.8" y="801.5" width="164.5" height="17.5" rx="3" fill="#ffffff"/><text x="650.0" y="814" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">read 1: operation()</text>
+<path d="M450 854 H847" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="559.8" y="833.0" width="180.5" height="18.0" rx="3" fill="#ffffff"/><text x="650.0" y="846" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">raises PermissionError</text>
+<path d="M850 888 H173" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="208.8" y="867.0" width="282.4" height="18.0" rx="3" fill="#ffffff"/><text x="350.0" y="880" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">PermissionError propagates (1 call)</text>
+<rect x="866" y="862" width="360" height="50" rx="6" fill="#ffffff" stroke="#9aa8b6" stroke-width="1.4"/>
+<text x="876" y="883" font-size="14" font-weight="400" fill="#192e42" text-anchor="start">Not listed → no further call, even</text>
+<text x="876" y="902" font-size="14" font-weight="400" fill="#192e42" text-anchor="start">though 2 attempts remain.</text>
+</svg>

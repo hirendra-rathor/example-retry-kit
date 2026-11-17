@@ -1,0 +1,17 @@
+$ uv run --locked python -m pytest -v --no-header -k 'limit_three or limit_two or permission_error or consumer'
+============================= test session starts ==============================
+collecting ... collected 33 items / 27 deselected / 6 selected
+
+tests/test_consumer.py::test_report_consumer_runs_outside_the_checkout PASSED [ 16%]
+tests/test_consumer.py::test_viewer_with_two_attempts_receives_the_second_reads_exception PASSED [ 33%]
+tests/test_consumer.py::test_viewer_receives_a_permission_error_after_one_read PASSED [ 50%]
+tests/test_retry.py::test_limit_three_gets_the_report_on_the_third_read PASSED [ 66%]
+tests/test_retry.py::test_limit_two_raises_the_exception_from_the_second_read PASSED [ 83%]
+tests/test_retry.py::test_permission_error_reaches_the_viewer_after_one_read PASSED [100%]
+
+======================= 6 passed, 27 deselected in 0.15s =======================
+[exit status 0]
+$ uv run --locked python -m pytest -q
+.................................                                        [100%]
+33 passed in 0.14s
+[exit status 0]

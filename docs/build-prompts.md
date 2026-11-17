@@ -1,23 +1,4 @@
-# Build Retry Kit in three prompts
-
-## Set up the dev environment
-
-Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and the **Design Proposal** skill from the [Continuous Assurance repository](https://github.com/hirendra-rathor/continuous-assurance). Clone Retry Kit, run its test, and try the report viewer.
-
-```sh
-git clone https://github.com/hirendra-rathor/example-retry-kit.git
-cd example-retry-kit
-uv run --locked python -m pytest -q
-uv run --locked python examples/read_report.py
-```
-
-You should see `1 passed`. The report viewer prints `Report ready: 3 rows.` on its first read. The first milestone adds retry behavior to the package in `src/retry_kit/`.
-
-The `starter` tag marks this shared starting point for both builds.
-
-Open this checkout in your coding assistant and paste the first prompt. The prompts use `/ca-design-proposal` for Claude Code. In Codex, change it to `$ca-design-proposal` before sending each prompt.
-
-Review the proposal and its diagrams and ask for any revisions. When the design fits, reply, “Approved. Implement this milestone and run its checks.” Before pasting the next prompt, try the report viewer and run the tests again.
+# Retry Kit prompts used by Claude Code
 
 ## 1. Retry a caller’s operation
 
@@ -36,7 +17,7 @@ those exceptions.
 Take the report viewer as an example. Its read function may raise ReportNotReady
 if the report is still being prepared. Depending on the time taken to prepare
 the report, sometimes the first read succeeds, and sometimes it takes a few
-tries. Say the report becomes available between the second and third reads.
+tries. Say the report becomes available between the second and third retries.
 With a limit of three attempts, the viewer should get the report eventually.
 With a limit of two, it should get the ReportNotReady exception from its
 second read. A permission error should reach the viewer immediately.

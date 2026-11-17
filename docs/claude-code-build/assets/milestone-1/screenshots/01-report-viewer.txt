@@ -1,0 +1,9 @@
+$ uv run --locked python examples/read_report.py
+Report ready: 3 rows.
+[exit status 0]
+$ uv run --locked python examples/read_report.py --attempts 2
+Viewer received ReportNotReady after 2 read(s): report is still being prepared (read 2)
+[exit status 1]
+$ uv run --locked python examples/read_report.py --deny-access
+Viewer received PermissionError after 1 read(s): report access denied (read 1)
+[exit status 1]
