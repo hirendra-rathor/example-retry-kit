@@ -1,0 +1,17 @@
+$ uv run --locked python -m pytest -v --no-header -k 'waits_before or as_soon_as or all_four or four_reads_fail or unset_delay'
+============================= test session starts ==============================
+collecting ... collected 61 items / 55 deselected / 6 selected
+
+tests/test_consumer.py::test_viewer_really_waits_before_reads_two_three_and_four PASSED [ 16%]
+tests/test_consumer.py::test_viewer_whose_four_reads_fail_receives_the_fourth_exception_without_another_wait PASSED [ 33%]
+tests/test_waits.py::test_viewer_waits_before_reads_two_three_and_four PASSED [ 50%]
+tests/test_waits.py::test_viewer_gets_the_report_as_soon_as_a_read_succeeds PASSED [ 66%]
+tests/test_waits.py::test_all_four_reads_failing_raise_the_fourth_exception_without_another_wait PASSED [ 83%]
+tests/test_waits.py::test_unset_delay_never_sleeps PASSED                [100%]
+
+======================= 6 passed, 55 deselected in 1.30s =======================
+[exit status 0]
+$ uv run --locked python -m pytest -q
+.............................................................            [100%]
+61 passed in 1.82s
+[exit status 0]

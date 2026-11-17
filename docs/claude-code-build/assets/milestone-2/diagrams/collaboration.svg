@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1265" width="1500" height="1265" role="img" aria-labelledby="title desc" font-family="Arial, Helvetica, sans-serif">
+<title id="title">Retry Kit collaboration: waits before reads two to four</title><desc id="desc">Sequence of one retry() call for the report viewer with four attempts, initial_delay 0.1 and max_delay 0.25. The attempt loop calls load_report at once; after each ReportNotReady with attempts left it takes the next wait from the wait schedule (0.1, then 0.2, then 0.4 capped to 0.25) and passes it to the sleep function before the next read. Read 4 returns the report. If read 4 also fails, the loop re-raises it without asking for another wait. With no delay set the schedule is never consulted and sleep is never called. Gray means context, blue means changed, green means new.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#435970"/></marker><marker id="arrow-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#22a06b"/></marker><marker id="arrow-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#3b82f6"/></marker><marker id="arrow-red" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#dc2626"/></marker></defs>
+<rect width="1500" height="1265" fill="white"/>
+<text x="28" y="43" font-size="29" font-weight="700" fill="#182f46" text-anchor="start">Retry Kit collaboration: waits before reads 2, 3 and 4</text>
+<text x="28" y="75" font-size="17" font-weight="400" fill="#182f46" text-anchor="start">One thread  •  The attempt loop asks the wait schedule for the next wait and passes it to the injected sleep function before each retry.</text>
+<rect x="1436" y="20" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="1458.5" y="36" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<rect x="1353" y="20" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="1390.5" y="36" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<rect x="1275" y="20" width="70" height="23" rx="4" fill="#a3a3a3"/>
+<text x="1310.0" y="36" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">context</text>
+<rect x="20" y="105" width="490" height="1130" rx="10" fill="#fbfcfd" stroke="#8a99a8" stroke-width="1.5" stroke-dasharray="7 5"/>
+<text x="36" y="128" font-size="14" font-weight="700" fill="#48617a" text-anchor="start">Report viewer application (consumer code)</text>
+<rect x="530" y="105" width="610" height="1130" rx="10" fill="#f6fbf8" stroke="#8a99a8" stroke-width="1.5" stroke-dasharray="7 5"/>
+<text x="546" y="128" font-size="14" font-weight="700" fill="#48617a" text-anchor="start">Retry Kit library (retry_kit package)</text>
+<rect x="1160" y="105" width="320" height="1130" rx="10" fill="#fbfbf6" stroke="#8a99a8" stroke-width="1.5" stroke-dasharray="7 5"/>
+<text x="1176" y="128" font-size="14" font-weight="700" fill="#48617a" text-anchor="start">Supplied by the caller of retry()</text>
+<rect x="25.0" y="145" width="220" height="92" rx="7" fill="#f9fbfd" stroke="#3b82f6" stroke-width="2.6"/>
+<rect x="160.0" y="134" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="197.5" y="150" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<text x="37.0" y="167" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">PARTICIPANT</text>
+<text x="37.0" y="191" font-size="18" font-weight="700" fill="#182f46" text-anchor="start">Report viewer</text>
+<text x="37.0" y="211" font-size="13.5" font-weight="400" fill="#586674" text-anchor="start">Today: 3 attempts, no wait.</text>
+<text x="37.0" y="230" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">Proposed: 4, waits 0.1–0.25.</text>
+<path d="M135 237 V1220" stroke="#9aa8b6" stroke-width="1.5" stroke-dasharray="4 4"/>
+<rect x="265.0" y="145" width="220" height="92" rx="7" fill="#f9fbfd" stroke="#a3a3a3" stroke-width="2.6"/>
+<rect x="405.0" y="134" width="70" height="23" rx="4" fill="#a3a3a3"/>
+<text x="440.0" y="150" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">context</text>
+<text x="277.0" y="167" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">OPERATION</text>
+<text x="277.0" y="191" font-size="18" font-weight="700" fill="#182f46" text-anchor="start">load_report</text>
+<text x="277.0" y="211" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">Reads 1–3 raise</text>
+<text x="277.0" y="230" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">ReportNotReady here.</text>
+<path d="M375 237 V1220" stroke="#9aa8b6" stroke-width="1.5" stroke-dasharray="4 4"/>
+<rect x="580.0" y="145" width="220" height="92" rx="7" fill="#f9fbfd" stroke="#3b82f6" stroke-width="2.6"/>
+<rect x="715.0" y="134" width="75" height="23" rx="4" fill="#3b82f6"/>
+<text x="752.5" y="150" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">changed</text>
+<text x="592.0" y="167" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">COMPONENT</text>
+<text x="592.0" y="191" font-size="18" font-weight="700" fill="#182f46" text-anchor="start">Attempt loop</text>
+<text x="592.0" y="211" font-size="13.5" font-weight="400" fill="#586674" text-anchor="start">Today: retries at once.</text>
+<text x="592.0" y="230" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">Proposed: waits first.</text>
+<path d="M690 237 V1220" stroke="#9aa8b6" stroke-width="1.5" stroke-dasharray="4 4"/>
+<rect x="890.0" y="145" width="220" height="92" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="1055.0" y="134" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="1077.5" y="150" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="902.0" y="167" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">COMPONENT</text>
+<text x="902.0" y="191" font-size="18" font-weight="700" fill="#182f46" text-anchor="start">Wait schedule</text>
+<text x="902.0" y="211" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">retry_kit._schedule</text>
+<text x="902.0" y="230" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">Double, then cap.</text>
+<path d="M1000 237 V1220" stroke="#9aa8b6" stroke-width="1.5" stroke-dasharray="4 4"/>
+<rect x="1190.0" y="145" width="220" height="92" rx="7" fill="#f9fbfd" stroke="#22a06b" stroke-width="2.6"/>
+<rect x="1355.0" y="134" width="45" height="23" rx="4" fill="#22a06b"/>
+<text x="1377.5" y="150" font-size="13" font-weight="700" fill="#0a1d28" text-anchor="middle">new</text>
+<text x="1202.0" y="167" font-size="12" font-weight="700" fill="#48617a" text-anchor="start">PARTICIPANT</text>
+<text x="1202.0" y="191" font-size="18" font-weight="700" fill="#182f46" text-anchor="start">Sleep function</text>
+<text x="1202.0" y="211" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">time.sleep by default;</text>
+<text x="1202.0" y="230" font-size="13.5" font-weight="400" fill="#192e42" text-anchor="start">a recorder in tests.</text>
+<path d="M1300 237 V1220" stroke="#9aa8b6" stroke-width="1.5" stroke-dasharray="4 4"/>
+<rect x="30" y="250" width="470" height="50" rx="6" fill="#ffffff" stroke="#9aa8b6" stroke-width="1.4"/>
+<text x="40" y="271" font-size="14" font-weight="400" fill="#192e42" text-anchor="start">policy = RetryPolicy(retry_on=[ReportNotReady],</text>
+<text x="40" y="290" font-size="14" font-weight="400" fill="#192e42" text-anchor="start">    max_attempts=4, initial_delay=0.1, max_delay=0.25)</text>
+<path d="M135 330 H687" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="272.6" y="309.5" width="279.8" height="17.5" rx="3" fill="#ffffff"/><text x="412.5" y="322" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">retry(load_report, policy=policy)</text>
+<path d="M690 372 H378" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="437.9" y="351.5" width="189.2" height="17.5" rx="3" fill="#ffffff"/><text x="532.5" y="364" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">read 1 (no wait first)</text>
+<path d="M375 404 H687" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="434.4" y="383.0" width="196.2" height="18.0" rx="3" fill="#ffffff"/><text x="532.5" y="396" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">raises ReportNotReady #1</text>
+<path d="M690 444 H997" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="743.0" y="423.0" width="204.0" height="18.0" rx="3" fill="#ffffff"/><text x="845.0" y="436" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">attempt 1 &lt; 4: next wait?</text>
+<path d="M1000 474 H693" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="828.6" y="453.5" width="32.7" height="17.5" rx="3" fill="#ffffff"/><text x="845.0" y="466" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">0.1</text>
+<path d="M690 506 H1297" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="949.8" y="485.5" width="90.3" height="17.5" rx="3" fill="#ffffff"/><text x="995.0" y="498" font-size="13.5" font-weight="700" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">sleep(0.1)</text>
+<path d="M690 548 H378" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="503.8" y="527.5" width="57.4" height="17.5" rx="3" fill="#ffffff"/><text x="532.5" y="540" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">read 2</text>
+<path d="M375 580 H687" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="434.4" y="559.0" width="196.2" height="18.0" rx="3" fill="#ffffff"/><text x="532.5" y="572" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">raises ReportNotReady #2</text>
+<path d="M690 620 H997" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="743.0" y="599.0" width="204.0" height="18.0" rx="3" fill="#ffffff"/><text x="845.0" y="612" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">attempt 2 &lt; 4: next wait?</text>
+<path d="M1000 650 H693" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="828.6" y="629.5" width="32.7" height="17.5" rx="3" fill="#ffffff"/><text x="845.0" y="642" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">0.2</text>
+<path d="M690 682 H1297" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="949.8" y="661.5" width="90.3" height="17.5" rx="3" fill="#ffffff"/><text x="995.0" y="674" font-size="13.5" font-weight="700" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">sleep(0.2)</text>
+<path d="M690 724 H378" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="503.8" y="703.5" width="57.4" height="17.5" rx="3" fill="#ffffff"/><text x="532.5" y="716" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">read 3</text>
+<path d="M375 756 H687" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="434.4" y="735.0" width="196.2" height="18.0" rx="3" fill="#ffffff"/><text x="532.5" y="748" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">raises ReportNotReady #3</text>
+<path d="M690 796 H997" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="743.0" y="775.0" width="204.0" height="18.0" rx="3" fill="#ffffff"/><text x="845.0" y="788" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">attempt 3 &lt; 4: next wait?</text>
+<path d="M1000 826 H693" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="771.0" y="805.5" width="148.0" height="17.5" rx="3" fill="#ffffff"/><text x="845.0" y="818" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">0.4 → capped 0.25</text>
+<path d="M690 858 H1297" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="945.7" y="837.5" width="98.6" height="17.5" rx="3" fill="#ffffff"/><text x="995.0" y="850" font-size="13.5" font-weight="700" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">sleep(0.25)</text>
+<path d="M690 900 H378" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="503.8" y="879.5" width="57.4" height="17.5" rx="3" fill="#ffffff"/><text x="532.5" y="892" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">read 4</text>
+<path d="M375 932 H687" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="407.0" y="911.0" width="251.0" height="18.0" rx="3" fill="#ffffff"/><text x="532.5" y="924" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">returns &quot;Report ready: 3 rows.&quot;</text>
+<path d="M690 970 H138" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="138.0" y="949.0" width="549.0" height="18.0" rx="3" fill="#ffffff"/><text x="412.5" y="962" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">returns &quot;Report ready: 3 rows.&quot; after 4 reads, waits 0.1 + 0.2 + 0.25</text>
+<rect x="32" y="1000" width="1436" height="96" rx="6" fill="#fff8f1" fill-opacity="0.6" stroke="#b7791f" stroke-width="1.4"/>
+<rect x="32" y="1000" width="230" height="24" rx="6" fill="#f6e3c8"/>
+<text x="42" y="1017" font-size="13" font-weight="700" fill="#7a4a0c" text-anchor="start">alternative: read 4 also fails</text>
+<path d="M375 1046 H687" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="434.4" y="1025.0" width="196.2" height="18.0" rx="3" fill="#ffffff"/><text x="532.5" y="1038" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">raises ReportNotReady #4</text>
+<path d="M690 1082 H138" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow-blue)"/>
+<rect x="263.5" y="1061.0" width="298.1" height="18.0" rx="3" fill="#ffffff"/><text x="412.5" y="1074" font-size="14" font-weight="700" fill="#1d4ed8" text-anchor="middle">ReportNotReady #4 re-raised (4 reads)</text>
+<rect x="730" y="1030" width="420" height="50" rx="6" fill="#ffffff" stroke="#9aa8b6" stroke-width="1.4"/>
+<text x="740" y="1051" font-size="14" font-weight="400" fill="#192e42" text-anchor="start">attempt 4 = max_attempts → no next-wait request,</text>
+<text x="740" y="1070" font-size="14" font-weight="400" fill="#192e42" text-anchor="start">no sleep after read 4.</text>
+<rect x="32" y="1108" width="1436" height="96" rx="6" fill="#f3f7fd" fill-opacity="0.6" stroke="#5b7fb5" stroke-width="1.4"/>
+<rect x="32" y="1108" width="300" height="24" rx="6" fill="#dbe6f6"/>
+<text x="42" y="1125" font-size="13" font-weight="700" fill="#24446f" text-anchor="start">alternative: no delay set (Milestone 1 behavior)</text>
+<path d="M375 1154 H687" fill="none" stroke="#435970" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="434.4" y="1133.0" width="196.2" height="18.0" rx="3" fill="#ffffff"/><text x="532.5" y="1146" font-size="14" font-weight="600" fill="#253d55" text-anchor="middle">raises ReportNotReady #1</text>
+<path d="M690 1190 H378" fill="none" stroke="#435970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="470.9" y="1169.5" width="123.3" height="17.5" rx="3" fill="#ffffff"/><text x="532.5" y="1182" font-size="13.5" font-weight="400" fill="#253d55" text-anchor="middle" font-family="Menlo, Consolas, monospace">read 2 at once</text>
+<rect x="730" y="1138" width="420" height="50" rx="6" fill="#ffffff" stroke="#9aa8b6" stroke-width="1.4"/>
+<text x="740" y="1159" font-size="14" font-weight="400" fill="#192e42" text-anchor="start">initial_delay=None: the schedule is never consulted</text>
+<text x="740" y="1178" font-size="14" font-weight="400" fill="#192e42" text-anchor="start">and sleep is never called.</text>
+</svg>

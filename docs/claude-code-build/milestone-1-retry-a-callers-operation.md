@@ -174,4 +174,4 @@ These captures show the report viewer and tests from the milestone 1 implementat
 
 ## Navigation
 
-[Recording index](README.md) · [Build prompts](../build-prompts.md) · [Project README](../../README.md)
+[Next milestone](milestone-2-let-callers-choose-how-long-to-wait.md) · [Recording index](README.md) · [Build prompts](../build-prompts.md) · [Project README](../../README.md)

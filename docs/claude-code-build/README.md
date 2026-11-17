@@ -7,6 +7,7 @@ This folder records the independent **Claude Code** implementation of the Retry 
 | Milestone | Recording |
 | --- | --- |
 | 1. Retry a caller’s operation | [Milestone 1 chapter](milestone-1-retry-a-callers-operation.md) |
+| 2. Let callers choose how long to wait | [Milestone 2 chapter](milestone-2-let-callers-choose-how-long-to-wait.md) |
 
 The recordings in this folder supply source material for the [Retry Kit walkthrough](https://hirendra-rathor.github.io/examples/retry-kit/).
 

@@ -1,0 +1,15 @@
+$ uv run --locked python examples/read_report.py
+Report ready: 3 rows.
+[exit status 0]
+$ uv run --locked python examples/read_report.py --not-ready-reads 3 --show-waits
+Waiting 0.1 s before read 2
+Waiting 0.2 s before read 3
+Waiting 0.25 s before read 4
+Report ready: 3 rows.
+[exit status 0]
+$ uv run --locked python examples/read_report.py --not-ready-reads 4 --show-waits
+Waiting 0.1 s before read 2
+Waiting 0.2 s before read 3
+Waiting 0.25 s before read 4
+Viewer received ReportNotReady after 4 read(s): report is still being prepared (read 4)
+[exit status 1]
