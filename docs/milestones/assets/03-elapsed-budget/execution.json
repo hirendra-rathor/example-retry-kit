@@ -1,0 +1,7 @@
+{
+  "command": "uv run --locked python examples/read_with_budget.py",
+  "milestone": 3,
+  "stdout": "Late success: Report ready: 3 rows.\n  Starts: [0.0, 0.7]; waits: [0.3]; elapsed: 1.1s.\nLate failure: ReportNotReady: Report not ready on read 2.\n  Starts: [0.0, 0.7]; waits: [0.3]; elapsed: 1.1s.\nExact deadline: ReportNotReady: Report not ready on read 1.\n  Starts: [0.0]; waits: []; elapsed: 0.5s.\nOversleep: ReportNotReady: Report not ready on read 1.\n  Starts: [0.0]; waits: [0.3]; elapsed: 1.1s.\n",
+  "stderr": "",
+  "returncode": 0
+}

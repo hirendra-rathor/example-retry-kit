@@ -1,0 +1,16 @@
+I'd like callers who have a deadline to be able to set a time budget for
+starting retries. Both the operation and the waits use up that budget. If the
+full wait would put the next retry at or past the deadline, the library should
+raise the last exception without waiting, even if the caller has attempts
+left. A wait can also take longer than requested, so the library should
+check that there's still time just before starting a retry.
+
+Take the report viewer as an example. It has a one-second budget and waits
+0.3 seconds between reads. Suppose its first read takes 0.4 seconds and
+raises ReportNotReady. The second read starts at 0.7 seconds and finishes
+at 1.1 seconds. If the report is ready then, the viewer should get it. If
+it's still being prepared, the viewer should get the ReportNotReady exception
+from that second read without another wait. I'd like to check both outcomes
+with a clock we can control.
+
+Give me a design proposal [use $ca-design-proposal].

@@ -1,0 +1,161 @@
+{
+  "kind": "sequence",
+  "title": "Milestone 3 — the second read is admitted at 0.7, then succeeds at 1.1",
+  "subtitle": "Policy: attempts=5, retry_on=[ReportNotReady], initial_delay=max_delay=0.3, time_budget=1.0. The clock and waiting provider are external dependencies in the same process.",
+  "actors": [
+    {
+      "title": "Report viewer",
+      "facet": "Consumer",
+      "status": "changed",
+      "body": [
+        "Today: sets failure/count/delay choices.",
+        "Proposed: also sets budget=1.0; keeps a late successful report."
+      ]
+    },
+    {
+      "title": "Budget",
+      "facet": "Elapsed-time component",
+      "status": "new",
+      "body": [
+        "Today: absent.",
+        "Proposed: own the invocation’s baseline and strict admission checks using the supplied clock."
+      ]
+    },
+    {
+      "title": "retry executor",
+      "facet": "Library control",
+      "status": "changed",
+      "body": [
+        "Today: count/eligibility admission.",
+        "Proposed: consult Budget before waiting and before retrying; return success directly."
+      ]
+    },
+    {
+      "title": "load_report",
+      "facet": "Caller-owned callback",
+      "status": "context",
+      "body": [
+        "Owns its execution. In this acceptance case, each read consumes 0.4 seconds; read 1 fails and read 2 succeeds."
+      ]
+    },
+    {
+      "title": "wait(seconds)",
+      "facet": "Waiting provider",
+      "status": "context",
+      "body": [
+        "Receives 0.3 and advances the controlled clock by that amount. Production waiting may overshoot."
+      ]
+    },
+    {
+      "title": "clock()",
+      "facet": "Monotonic provider",
+      "status": "new",
+      "body": [
+        "Default: time.monotonic.",
+        "Controlled acceptance readings: 0.0, 0.4, 0.7. Time advances to 1.1 during read 2."
+      ]
+    }
+  ],
+  "events": [
+    [
+      0,
+      2,
+      "retry(load_report, policy=policy, wait=provider, clock=clock)"
+    ],
+    [
+      2,
+      1,
+      "create per-invocation Budget"
+    ],
+    [
+      1,
+      5,
+      "sample clock immediately before first call"
+    ],
+    [
+      5,
+      1,
+      "returns 0.0; store started=0.0"
+    ],
+    [
+      2,
+      3,
+      "read 1 — initial call is always permitted"
+    ],
+    [
+      3,
+      2,
+      "raises ReportNotReady #1 at t=0.4"
+    ],
+    [
+      2,
+      1,
+      "attempts remain; allows(delay=0.3)?"
+    ],
+    [
+      1,
+      5,
+      "read elapsed time"
+    ],
+    [
+      5,
+      1,
+      "returns 0.4"
+    ],
+    [
+      1,
+      2,
+      "allow: 0.4 + 0.3 < 1.0"
+    ],
+    [
+      2,
+      4,
+      "wait(0.3)"
+    ],
+    [
+      4,
+      2,
+      "returns at t=0.7"
+    ],
+    [
+      2,
+      1,
+      "allows(delay=0)? — recheck before retry"
+    ],
+    [
+      1,
+      5,
+      "read actual time after waiting"
+    ],
+    [
+      5,
+      1,
+      "returns 0.7"
+    ],
+    [
+      1,
+      2,
+      "admit: 0.7 < 1.0"
+    ],
+    [
+      2,
+      3,
+      "read 2 at t=0.7"
+    ],
+    [
+      3,
+      2,
+      "returns report at t=1.1"
+    ],
+    [
+      2,
+      0,
+      "returns the report unchanged; no post-success budget veto"
+    ]
+  ],
+  "notes": [
+    "Alternative: read 2 raises at 1.1. The full next wait cannot fit; re-raise failure #2 with no second wait.",
+    "Oversleep: if the post-wait reading is >= 1.0, preserve failure #1 and never invoke read 2.",
+    "The clock defines observed admission time. There is no interruption of a running call or hard real-time start guarantee."
+  ]
+}

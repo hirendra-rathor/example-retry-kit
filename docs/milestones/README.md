@@ -8,6 +8,7 @@ Recorded checks describe the build session. Descriptions and navigation have bee
 | --- | --- |
 | 1 · Bounded retries | [Proposal, implementation, and report viewer output](01-bounded-retries.md) |
 | 2 · Capped backoff | [Capped waits, recovery, and exhaustion](02-capped-backoff.md) |
+| 3 · Elapsed-time budget | [Late success, deadline denial, and oversleep](03-elapsed-budget.md) |
 
 Run `git log --oneline --reverse starter..HEAD` on the `codex` branch to see the milestones in order. Each commit includes the implementation and its recording. To run an earlier milestone, use `git switch --detach` with the commit ID shown for its subject, then `git switch codex` to return to the completed build.
 

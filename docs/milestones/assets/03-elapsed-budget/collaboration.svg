@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2530" height="2104" viewBox="0 0 2530 2104" role="img">
+<title>Milestone 3 — the second read is admitted at 0.7, then succeeds at 1.1</title><desc>Policy: attempts=5, retry_on=[ReportNotReady], initial_delay=max_delay=0.3, time_budget=1.0. The clock and waiting provider are external dependencies in the same process.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="4" orient="auto"><path d="M1,0 L9,4 L1,8" fill="none" stroke="#486578" stroke-width="1.6"/></marker></defs>
+<rect width="2530" height="2104" fill="#f5f8fa"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="32" y="42" font-size="28" fill="#172b3a" font-weight="bold" text-anchor="start">Milestone 3 — the second read is admitted at 0.7, then succeeds at 1.1</text>
+<text x="32" y="76" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Policy: attempts=5, retry_on=[ReportNotReady], initial_delay=max_delay=0.3, time_budget=1.0. The clock and waiting provider are external dependencies in the same process.</text>
+<rect x="2210" y="18" width="90" height="28" rx="5" fill="#22a06b"/>
+<text x="2255" y="38" font-size="14" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<rect x="2308" y="18" width="90" height="28" rx="5" fill="#3b82f6"/>
+<text x="2353" y="38" font-size="14" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<rect x="2406" y="18" width="90" height="28" rx="5" fill="#a3a3a3"/>
+<text x="2451" y="38" font-size="14" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<rect x="420" y="105" width="825" height="1894" rx="13" fill="#eaf1f5" stroke="#94a9b8" stroke-dasharray="7 5"/>
+<text x="440" y="135" font-size="18" fill="#172b3a" font-weight="bold" text-anchor="start">Retry Kit library boundary — same synchronous Python process</text>
+<rect x="35" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="302" y="158" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="343.5" y="175" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="50" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Consumer</text>
+<text x="50" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">Report viewer</text>
+<text x="50" y="237" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: sets failure/count/delay</text>
+<text x="50" y="259" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">choices.</text>
+<text x="50" y="286" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: also sets budget=1.0; keeps</text>
+<text x="50" y="308" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">a late successful report.</text>
+<path d="M210 394 V1992" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<rect x="450" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="717" y="158" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="758.5" y="175" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="465" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Elapsed-time component</text>
+<text x="465" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">Budget</text>
+<text x="465" y="237" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: absent.</text>
+<text x="465" y="264" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: own the invocation’s</text>
+<text x="465" y="286" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">baseline and strict admission checks</text>
+<text x="465" y="308" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">using the supplied clock.</text>
+<path d="M625 394 V1992" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<rect x="865" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1132" y="158" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="1173.5" y="175" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="880" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Library control</text>
+<text x="880" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">retry executor</text>
+<text x="880" y="237" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: count/eligibility admission.</text>
+<text x="880" y="264" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: consult Budget before</text>
+<text x="880" y="286" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">waiting and before retrying; return</text>
+<text x="880" y="308" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">success directly.</text>
+<path d="M1040 394 V1992" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<rect x="1280" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#a3a3a3" stroke-width="2"/>
+<rect x="1547" y="158" width="83" height="23" rx="3" fill="#a3a3a3"/>
+<text x="1588.5" y="175" font-size="13" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<text x="1295" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Caller-owned callback</text>
+<text x="1295" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">load_report</text>
+<text x="1295" y="237" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Owns its execution. In this</text>
+<text x="1295" y="259" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">acceptance case, each read consumes</text>
+<text x="1295" y="281" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">0.4 seconds; read 1 fails and read 2</text>
+<text x="1295" y="303" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">succeeds.</text>
+<path d="M1455 394 V1992" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<rect x="1695" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#a3a3a3" stroke-width="2"/>
+<rect x="1962" y="158" width="83" height="23" rx="3" fill="#a3a3a3"/>
+<text x="2003.5" y="175" font-size="13" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<text x="1710" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Waiting provider</text>
+<text x="1710" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">wait(seconds)</text>
+<text x="1710" y="237" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Receives 0.3 and advances the</text>
+<text x="1710" y="259" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">controlled clock by that amount.</text>
+<text x="1710" y="281" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Production waiting may overshoot.</text>
+<path d="M1870 394 V1992" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<rect x="2110" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="2377" y="158" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2418.5" y="175" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="2125" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Monotonic provider</text>
+<text x="2125" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">clock()</text>
+<text x="2125" y="237" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Default: time.monotonic.</text>
+<text x="2125" y="264" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Controlled acceptance readings: 0.0,</text>
+<text x="2125" y="286" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">0.4, 0.7. Time advances to 1.1 during</text>
+<text x="2125" y="308" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">read 2.</text>
+<path d="M2285 394 V1992" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<polyline points="210,430 1040,430" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="625.0" y="417" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">1. retry(load_report, policy=policy, wait=provider, clock=clock)</text>
+<polyline points="1040,506 625,506" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="832.5" y="493" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">2. create per-invocation Budget</text>
+<polyline points="625,582 2285,582" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1455.0" y="569" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">3. sample clock immediately before first call</text>
+<polyline points="2285,658 625,658" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1455.0" y="645" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">4. returns 0.0; store started=0.0</text>
+<polyline points="1040,734 1455,734" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1247.5" y="721" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">5. read 1 — initial call is always permitted</text>
+<polyline points="1455,810 1040,810" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1247.5" y="797" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">6. raises ReportNotReady #1 at t=0.4</text>
+<polyline points="1040,886 625,886" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="832.5" y="873" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">7. attempts remain; allows(delay=0.3)?</text>
+<polyline points="625,962 2285,962" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1455.0" y="949" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">8. read elapsed time</text>
+<polyline points="2285,1038 625,1038" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1455.0" y="1025" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">9. returns 0.4</text>
+<polyline points="625,1114 1040,1114" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="832.5" y="1101" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">10. allow: 0.4 + 0.3 &lt; 1.0</text>
+<polyline points="1040,1190 1870,1190" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1455.0" y="1177" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">11. wait(0.3)</text>
+<polyline points="1870,1266 1040,1266" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1455.0" y="1253" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">12. returns at t=0.7</text>
+<polyline points="1040,1342 625,1342" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="832.5" y="1329" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">13. allows(delay=0)? — recheck before retry</text>
+<polyline points="625,1418 2285,1418" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1455.0" y="1405" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">14. read actual time after waiting</text>
+<polyline points="2285,1494 625,1494" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1455.0" y="1481" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">15. returns 0.7</text>
+<polyline points="625,1570 1040,1570" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="832.5" y="1557" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">16. admit: 0.7 &lt; 1.0</text>
+<polyline points="1040,1646 1455,1646" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1247.5" y="1633" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">17. read 2 at t=0.7</text>
+<polyline points="1455,1722 1040,1722" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1247.5" y="1709" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">18. returns report at t=1.1</text>
+<polyline points="1040,1798 210,1798" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="625.0" y="1785" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">19. returns the report unchanged; no post-success budget veto</text>
+<text x="40" y="2034" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Alternative: read 2 raises at 1.1. The full next wait cannot fit; re-raise failure #2 with no second wait.</text>
+<text x="40" y="2059" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Oversleep: if the post-wait reading is &gt;= 1.0, preserve failure #1 and never invoke read 2.</text>
+<text x="40" y="2084" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">The clock defines observed admission time. There is no interruption of a running call or hard real-time start guarantee.</text>
+</g></svg>

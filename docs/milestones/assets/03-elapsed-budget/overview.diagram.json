@@ -1,0 +1,432 @@
+{
+  "kind": "overview",
+  "title": "Milestone 3 — admit retries before the deadline, retain late success",
+  "subtitle": "Baseline: milestone 2. The budget governs retry admission, not callback completion. Both operation time and actual waiting consume the same elapsed budget.",
+  "lanes": [
+    [
+      {
+        "title": "D1 · Stop starting work too late",
+        "facet": "Intentions",
+        "status": "new",
+        "body": [
+          "A caller with a deadline wants to avoid starting another retry when the remaining time cannot accommodate its full wait.",
+          "A1 seeks this outcome; D2 supplies time-aware admission."
+        ]
+      },
+      {
+        "title": "D2 · Admit a retry within budget",
+        "facet": "Required capabilities",
+        "status": "changed",
+        "body": [
+          "Today: eligible retries depend only on attempts and delay.",
+          "Proposed: also require scheduled and actual retry admission strictly inside a caller-selected elapsed-time budget."
+        ]
+      },
+      {
+        "title": "D3 · Full wait must fit",
+        "facet": "Rules",
+        "status": "new",
+        "body": [
+          "After a nonfinal eligible failure, elapsed + next_delay must be strictly less than time_budget.",
+          "Equality denies the retry and preserves the current failure. Never shorten a wait to force a retry; protects D1."
+        ]
+      },
+      {
+        "title": "D4 · Recheck before retrying",
+        "facet": "Rules",
+        "status": "new",
+        "body": [
+          "After waiting, check elapsed < budget immediately before another call. Check again for zero-delay retries too.",
+          "An overshooting wait denies the call. Constrains D2; protects D1."
+        ]
+      },
+      {
+        "title": "D5 · Keep an admitted success",
+        "facet": "Rules",
+        "status": "new",
+        "body": [
+          "The first call always runs with a valid clock, even for budget zero. An admitted call may finish after the deadline.",
+          "Return a successful result unchanged. A late failure prevents another retry; protects D6."
+        ]
+      },
+      {
+        "title": "D6 · Keep useful completed work",
+        "facet": "Intentions",
+        "status": "context",
+        "body": [
+          "Callers want the actual result of a successful operation. Milestones 1 and 2 already return that object unchanged.",
+          "Budgeting must not turn a completed success into a timeout or discard its result."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "A1 · Application author / viewer",
+        "facet": "Participants · system context",
+        "status": "changed",
+        "body": [
+          "Today: chooses exception, count, and delay settings.",
+          "Proposed: may also choose an elapsed budget. Still owns per-operation timeout and whether repetition is safe."
+        ]
+      },
+      {
+        "title": "A2 · Retry Kit",
+        "facet": "Architectural participants",
+        "status": "changed",
+        "body": [
+          "Today: admits retries by failure/count alone.",
+          "Proposed: ask a per-call budget to admit the next full wait and recheck after waiting. Never interrupt the operation."
+        ]
+      },
+      {
+        "title": "A3 · Report operation",
+        "facet": "Architectural participants",
+        "status": "context",
+        "body": [
+          "Runs synchronously and owns its work. The budget does not preempt or cancel it.",
+          "The new acceptance fixture consumes 0.4 seconds per read; its second read either succeeds or fails."
+        ]
+      },
+      {
+        "title": "A4 · Waiting provider",
+        "facet": "Architectural participants",
+        "status": "context",
+        "body": [
+          "Receives the requested delay and may return later than requested.",
+          "The library cannot assume requested wait equals elapsed time. Actual time is observed separately through A5."
+        ]
+      },
+      {
+        "title": "A5 · Monotonic clock",
+        "facet": "Architectural participants",
+        "status": "new",
+        "body": [
+          "Default provider: time.monotonic. Tests provide a controlled clock advanced by operation and wait.",
+          "Returns finite nondecreasing seconds; its epoch is arbitrary, not a wall-clock timestamp."
+        ]
+      },
+      {
+        "title": "A6 · Synchronous process",
+        "facet": "Runtime units",
+        "status": "context",
+        "body": [
+          "All participants run in the caller’s process. There is no timer interrupt, background monitor, or durable deadline service.",
+          "Deadline checks are admission decisions, not hard real-time scheduling guarantees."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "C1 · RetryPolicy",
+        "facet": "Components · policy.py",
+        "status": "changed",
+        "body": [
+          "Today: count, exception, and delay settings.",
+          "Proposed: optional time_budget, normalized with the existing finite-duration validator. None disables timing; zero permits only the first call."
+        ]
+      },
+      {
+        "title": "C2 · retry executor",
+        "facet": "Components · execution.py",
+        "status": "changed",
+        "body": [
+          "Today: check attempts, then wait and loop.",
+          "Proposed: check attempts first; ask Budget.allows(delay); wait if positive; ask Budget.allows(0); then invoke. Success returns directly."
+        ]
+      },
+      {
+        "title": "C3 · Budget",
+        "facet": "Components · budget.py",
+        "status": "new",
+        "body": [
+          "No elapsed-time owner exists today.",
+          "Proposed: sample a start reading, retain the last reading, and evaluate strict elapsed comparisons. Reject nonfinite or decreasing clock readings."
+        ]
+      },
+      {
+        "title": "C4 · Interval iterator",
+        "facet": "Components · waiting.py",
+        "status": "context",
+        "body": [
+          "Still owns capped doubling, independent of clocks and sleeping.",
+          "The budget receives the entire next interval. It can deny the retry, but cannot shorten the wait or alter the doubling rule."
+        ]
+      },
+      {
+        "title": "C5 · Controlled-time rehearsal",
+        "facet": "Components · read_with_budget.py",
+        "status": "new",
+        "body": [
+          "No budget consumer exists today.",
+          "Proposed: simulate late success, late failure, exact-deadline denial, and oversleep. The clock advances explicitly; no real sleeping is needed."
+        ]
+      },
+      {
+        "title": "C6 · Existing consumer / API",
+        "facet": "Components",
+        "status": "context",
+        "body": [
+          "Retain the immediate and real-wait scenarios and all previous exports.",
+          "The new optional budget and clock parameters preserve behavior for callers leaving the budget unset."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "I1 · time_budget=None",
+        "facet": "Interfaces · policy",
+        "status": "new",
+        "body": [
+          "Optional finite nonnegative int/float seconds; bool is invalid. None means disabled.",
+          "Zero is valid: initial success returns, initial failure cannot be retried."
+        ]
+      },
+      {
+        "title": "I2 · retry(..., clock=...)",
+        "facet": "Interfaces",
+        "status": "changed",
+        "body": [
+          "Today: operation, policy, waiting function.",
+          "Proposed: add keyword-only clock=time.monotonic. Enabled invocations take their own baseline reading immediately before the initial call."
+        ]
+      },
+      {
+        "title": "I3 · Budget.allows(delay)",
+        "facet": "Interfaces · internal",
+        "status": "new",
+        "body": [
+          "Read clock; compute elapsed = now - started. Return elapsed + delay < limit.",
+          "Passing delay=0 checks actual admission time after waiting. No absolute deadline addition is needed."
+        ]
+      },
+      {
+        "title": "I4 · operation() → result/error",
+        "facet": "Exchanges",
+        "status": "context",
+        "body": [
+          "Success returns directly, with no post-success budget veto. Eligible failure enters admission checks; unrelated failure escapes.",
+          "Only operation failures qualify for retry matching."
+        ]
+      },
+      {
+        "title": "I5 · clock() → seconds",
+        "facet": "Exchanges",
+        "status": "new",
+        "body": [
+          "Called only when a budget is enabled. Samples finite, nondecreasing numeric seconds.",
+          "Clock exceptions and invalid readings escape as dependency failures, even if their classes are retryable for the operation."
+        ]
+      },
+      {
+        "title": "I6 · wait(seconds)",
+        "facet": "Exchanges",
+        "status": "context",
+        "body": [
+          "Only full positive intervals that fit are passed to the waiting provider. Zero delays do not call it.",
+          "A waiting failure still escapes. Actual elapsed time is re-read after a successful wait."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "S1 · Optional budget setting",
+        "facet": "State elements",
+        "status": "new",
+        "body": [
+          "Immutable policy duration reused across calls. None adds no timing state and causes no clock reads.",
+          "It is not an absolute wall-clock deadline or a shared countdown."
+        ]
+      },
+      {
+        "title": "S2 · Per-invocation timing",
+        "facet": "State elements",
+        "status": "new",
+        "body": [
+          "Budget retains started and last readings. Each invocation gets a new baseline.",
+          "Count, schedule, and timing remain local even when a policy is reused."
+        ]
+      },
+      {
+        "title": "S3 · Prospective elapsed time",
+        "facet": "State elements",
+        "status": "new",
+        "body": [
+          "Derived from now - started + full delay. Operation duration and actual prior waits are already included in now.",
+          "Only a value strictly below the limit permits waiting."
+        ]
+      },
+      {
+        "title": "S4 · Last operation failure",
+        "facet": "State elements",
+        "status": "context",
+        "body": [
+          "Active exception remains in the executor’s handler through both budget gates and the wait.",
+          "Either gate denies with a bare re-raise; no synthetic timeout exception replaces it."
+        ]
+      },
+      {
+        "title": "S5 · Admitted running call",
+        "facet": "State elements",
+        "status": "context",
+        "body": [
+          "Once invoked, the callback owns execution until it returns or raises. The library keeps no interruptible task handle.",
+          "A late success is still a valid result; an individual call can exceed the entire budget."
+        ]
+      },
+      {
+        "title": "S6 · Controlled test time",
+        "facet": "State elements · tests",
+        "status": "new",
+        "body": [
+          "A fresh clock fixture records readings/waits and advances on explicit operation or waiting steps.",
+          "Exact boundary tests use binary-exact values. Decimal scenario values are checked with appropriate numeric assertions."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "V1 · Configuration checks",
+        "facet": "Tests · proposed additions",
+        "status": "new",
+        "body": [
+          "Reject negative/nonfinite budgets and bool. Accept None and zero.",
+          "Retain the 63 passing pre-budget checks and all existing duration validation rules."
+        ]
+      },
+      {
+        "title": "V2 · One-second acceptance",
+        "facet": "Tests · proposed",
+        "status": "new",
+        "body": [
+          "Read 1 fails at 0.4; wait 0.3; read 2 starts at 0.7 and finishes at 1.1.",
+          "Success returns; failure preserves read 2’s exception. Both have two calls and one requested wait."
+        ]
+      },
+      {
+        "title": "V3 · Exact admission boundary",
+        "facet": "Tests · proposed",
+        "status": "new",
+        "body": [
+          "Elapsed 0.5 plus wait 0.5 with budget 1.0: deny without waiting. An inside value admits; an outside value denies.",
+          "Use exact binary fractions to distinguish strict comparison from tolerance-based behavior."
+        ]
+      },
+      {
+        "title": "V4 · Oversleep / zero delay",
+        "facet": "Tests · proposed",
+        "status": "new",
+        "body": [
+          "A wait returning at or beyond the deadline causes no next call. Recheck even when requested delay is zero.",
+          "Budget zero still permits the first call, but never a retry."
+        ]
+      },
+      {
+        "title": "V5 · Dependency / reuse checks",
+        "facet": "Tests · proposed",
+        "status": "new",
+        "body": [
+          "Disabled budget reads no clock. Enabled clock failures, nonfinite readings, or backwards time escape.",
+          "Reused policies get fresh baselines; large clock epochs do not become absolute deadline sums."
+        ]
+      },
+      {
+        "title": "V6 · Installed consumers",
+        "facet": "Tests · proposed additions",
+        "status": "new",
+        "body": [
+          "Run both report examples from an installed wheel. The new controlled-time consumer prints four deterministic outcomes.",
+          "Full suite retains the prior real-wait consumer and every attempt/failure guarantee."
+        ]
+      }
+    ]
+  ],
+  "links": [
+    [
+      0,
+      0,
+      "sought by"
+    ],
+    [
+      0,
+      2,
+      "validates"
+    ],
+    [
+      0,
+      3,
+      "creates"
+    ],
+    [
+      0,
+      4,
+      "checked by"
+    ],
+    [
+      1,
+      0,
+      "provided by"
+    ],
+    [
+      1,
+      1,
+      "implemented by"
+    ],
+    [
+      1,
+      2,
+      "exposes"
+    ],
+    [
+      1,
+      3,
+      "creates"
+    ],
+    [
+      1,
+      4,
+      "observed by"
+    ],
+    [
+      2,
+      2,
+      "offers"
+    ],
+    [
+      2,
+      3,
+      "derives"
+    ],
+    [
+      2,
+      4,
+      "checked by"
+    ]
+  ],
+  "vertical": [
+    [
+      0,
+      4,
+      "protects D6"
+    ],
+    [
+      1,
+      0,
+      "invokes I2"
+    ],
+    [
+      1,
+      1,
+      "calls I4"
+    ],
+    [
+      2,
+      0,
+      "configures"
+    ]
+  ],
+  "rule_rows": [
+    2,
+    3,
+    4
+  ]
+}

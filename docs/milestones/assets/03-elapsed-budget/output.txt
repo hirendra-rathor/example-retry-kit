@@ -1,0 +1,8 @@
+Late success: Report ready: 3 rows.
+  Starts: [0.0, 0.7]; waits: [0.3]; elapsed: 1.1s.
+Late failure: ReportNotReady: Report not ready on read 2.
+  Starts: [0.0, 0.7]; waits: [0.3]; elapsed: 1.1s.
+Exact deadline: ReportNotReady: Report not ready on read 1.
+  Starts: [0.0]; waits: []; elapsed: 0.5s.
+Oversleep: ReportNotReady: Report not ready on read 1.
+  Starts: [0.0]; waits: [0.3]; elapsed: 1.1s.

@@ -12,5 +12,12 @@
     "title": "Capped backoff",
     "subject": "Implement milestone 2: let callers choose how long to wait",
     "tests": 63
+  },
+  {
+    "number": 3,
+    "slug": "03-elapsed-budget",
+    "title": "Elapsed-time budget",
+    "subject": "Implement milestone 3: decide whether there's time for another attempt",
+    "tests": 107
   }
 ]

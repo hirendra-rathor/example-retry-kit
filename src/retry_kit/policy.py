@@ -24,12 +24,16 @@ class RetryPolicy:
 
     ``attempts`` includes the first call. The supplied exception collection is
     copied, so later mutation by its owner cannot change this policy.
+    A positive ``initial_delay`` requires ``max_delay`` at least as large.
+    ``time_budget=None`` disables timing; zero permits the first call only.
+    The budget limits retry admission, never the duration of a running call.
     """
 
     attempts: int = 1
     retry_on: Iterable[type[Exception]] = ()
     initial_delay: float = 0.0
     max_delay: float | None = None
+    time_budget: float | None = None
 
     def __post_init__(self) -> None:
         if isinstance(self.attempts, bool) or not isinstance(self.attempts, int):
@@ -51,3 +55,5 @@ class RetryPolicy:
             raise ValueError("max_delay must be at least initial_delay")
         object.__setattr__(self, "initial_delay", initial)
         object.__setattr__(self, "max_delay", maximum)
+        if self.time_budget is not None:
+            object.__setattr__(self, "time_budget", seconds(self.time_budget, "time_budget"))
