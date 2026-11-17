@@ -1,0 +1,22 @@
+[build-system]
+requires = ["uv_build==0.11.16"]
+build-backend = "uv_build"
+
+[project]
+name = "example-retry-kit"
+version = "0.1.0"
+description = "A small Python retry library for the Continuous Assurance methodology example"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest>=8.4,<10"]
+
+[tool.uv.build-backend]
+module-name = "retry_kit"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
