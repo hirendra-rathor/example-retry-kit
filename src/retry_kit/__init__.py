@@ -1,1 +1,6 @@
-"""Package scaffold for Retry Kit; build its API with docs/build-prompts.md."""
+"""Synchronous retries selected and bounded by the calling application."""
+
+from .execution import retry
+from .policy import RetryPolicy
+
+__all__ = ["RetryPolicy", "retry"]

@@ -1,0 +1,368 @@
+{
+  "kind": "overview",
+  "title": "Milestone 1 — bounded retries, from intention to evidence",
+  "subtitle": "Baseline: the shared starter. Proposed synchronous library; report viewer is its consumer. D / A / C / I / S / V identify subjects across the six perspectives.",
+  "lanes": [
+    [
+      {
+        "title": "D1 · Recover without losing control",
+        "facet": "Intentions",
+        "status": "new",
+        "body": [
+          "Application authors want a transient failure to recover, while callers regain control after a bounded number of calls.",
+          "A1 seeks this outcome; D2 enables it."
+        ]
+      },
+      {
+        "title": "D2 · Repeat an eligible operation",
+        "facet": "Required capabilities",
+        "status": "new",
+        "body": [
+          "Today: the package has no retry API.",
+          "Proposed: Retry Kit invokes a supplied operation until success, an unrelated failure, or the total attempt limit."
+        ]
+      },
+      {
+        "title": "D3 · Caller selects failures",
+        "facet": "Rules",
+        "status": "new",
+        "body": [
+          "Only listed Exception types, including subclasses, permit another attempt. An empty list retries nothing.",
+          "Constrains D2; protects caller control in D1. Cancellation signals escape."
+        ]
+      },
+      {
+        "title": "D4 · Count the first call",
+        "facet": "Rules",
+        "status": "new",
+        "body": [
+          "attempts is a positive integer; bool is invalid. Three attempts means at most three invocations, including the first.",
+          "Constrains D2; guarantees the bound in D1."
+        ]
+      },
+      {
+        "title": "D5 · Preserve the outcome",
+        "facet": "Rules",
+        "status": "new",
+        "body": [
+          "Return the same successful object. On exhaustion, re-raise the same last exception. An unrelated error escapes immediately.",
+          "Constrains D2; protects the caller’s interpretation of success or failure."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "A1 · Application author / viewer",
+        "facet": "Participants · system context",
+        "status": "context",
+        "body": [
+          "The author chooses which failures are safe to repeat. The report viewer consumes the library inside its own process.",
+          "Retry does not undo operation effects or establish repeat safety."
+        ]
+      },
+      {
+        "title": "A2 · Retry Kit",
+        "facet": "Architectural participants",
+        "status": "changed",
+        "body": [
+          "Today: importable package scaffold.",
+          "Proposed: owns retry admission and repeated invocation. Calls A3 through I3; returns through I2. No service or worker is added."
+        ]
+      },
+      {
+        "title": "A3 · Report operation",
+        "facet": "Architectural participants",
+        "status": "changed",
+        "body": [
+          "Today: load_report always succeeds.",
+          "Proposed example: two failures, then report success. Its readiness and side effects remain caller-owned; library sees only result or exception."
+        ]
+      },
+      {
+        "title": "A4 · Python runtime",
+        "facet": "Runtime units",
+        "status": "context",
+        "body": [
+          "One synchronous call stack in the caller’s process. Standard exception matching selects eligible failures.",
+          "No network, background task, persistence, clock, or waiting dependency."
+        ]
+      },
+      {
+        "title": "A5 · Distribution / consumer",
+        "facet": "System context",
+        "status": "changed",
+        "body": [
+          "Today: package import and first-call report smoke test.",
+          "Proposed: installed consumer exercises public retries, including exhaustion and permission failure. Wheel check retains the installation boundary."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "C1 · RetryPolicy",
+        "facet": "Components · policy.py",
+        "status": "new",
+        "body": [
+          "No policy exists today. A frozen value validates attempts and exception classes; snapshots the supplied collection as a tuple.",
+          "Invalid policy fails before any operation runs."
+        ]
+      },
+      {
+        "title": "C2 · retry executor",
+        "facet": "Components · execution.py",
+        "status": "new",
+        "body": [
+          "No retry loop exists today. For each allowed attempt, call the operation and return immediately on success.",
+          "Catch only policy.retry_on; re-raise at the last attempt."
+        ]
+      },
+      {
+        "title": "C3 · Public exports",
+        "facet": "Components · __init__.py",
+        "status": "changed",
+        "body": [
+          "Today: package docstring only.",
+          "Proposed: export RetryPolicy and retry; private modules remain implementation details. Type variable retains the operation’s return type."
+        ]
+      },
+      {
+        "title": "C4 · Report rehearsal",
+        "facet": "Components · read_report.py",
+        "status": "changed",
+        "body": [
+          "Today: one direct successful read.",
+          "Proposed: print three deterministic scenarios: success on read 3; exhaustion on read 2; permission failure on read 1."
+        ]
+      },
+      {
+        "title": "C5 · No shared invocation state",
+        "facet": "Local capabilities",
+        "status": "new",
+        "body": [
+          "C2 keeps its counter inside each invocation. Reusing one C1 policy does not carry failures or counts into another call.",
+          "No retry schedule is introduced in milestone 1."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "I1 · RetryPolicy(attempts, retry_on)",
+        "facet": "Interfaces",
+        "status": "new",
+        "body": [
+          "attempts: positive int. retry_on: collection of Exception classes. Defaults: one attempt, no eligible exceptions.",
+          "Caller supplies choices; C1 validates and freezes them."
+        ]
+      },
+      {
+        "title": "I2 · retry(operation, *, policy)",
+        "facet": "Interfaces",
+        "status": "new",
+        "body": [
+          "Caller supplies a zero-argument callable and validated policy. C2 returns its value or raises its exception.",
+          "Validate callable before the loop; do not classify a noncallable input as an operation failure."
+        ]
+      },
+      {
+        "title": "I3 · operation() callback",
+        "facet": "Exchanges",
+        "status": "new",
+        "body": [
+          "Retry Kit calls the caller-owned operation. The callback returns T or raises an exception.",
+          "Arguments can be bound with a closure. There is no decorator or async protocol."
+        ]
+      },
+      {
+        "title": "I4 · Failure propagation",
+        "facet": "Exchanges",
+        "status": "new",
+        "body": [
+          "Eligible and attempts remain: another immediate call. Eligible and exhausted: bare re-raise. Unrelated: escapes.",
+          "KeyboardInterrupt / SystemExit cannot be eligible policy entries."
+        ]
+      },
+      {
+        "title": "I5 · Consumer command",
+        "facet": "Interfaces",
+        "status": "changed",
+        "body": [
+          "uv run --locked python examples/read_report.py",
+          "Today: one report line. Proposed: visible result plus call counts for success, exhaustion, and permission error."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "S1 · Validated policy",
+        "facet": "State elements",
+        "status": "new",
+        "body": [
+          "Created once by C1; immutable per-instance fields. Snapshot of retry_on prevents caller list mutation changing retry eligibility.",
+          "Reuse shares settings, never an attempt counter."
+        ]
+      },
+      {
+        "title": "S2 · Attempt ordinal",
+        "facet": "State elements",
+        "status": "new",
+        "body": [
+          "Local integer 1..policy.attempts, advanced only by the loop before invoking I3.",
+          "First call is 1. After an eligible failure, the current ordinal decides whether a new call is allowed."
+        ]
+      },
+      {
+        "title": "S3 · Current result / failure",
+        "facet": "State elements",
+        "status": "new",
+        "body": [
+          "Success is returned directly. The active exception remains available for bare re-raise; no wrapper replaces it.",
+          "Failure history is not retained after the call finishes."
+        ]
+      },
+      {
+        "title": "S4 · Report readiness",
+        "facet": "State elements",
+        "status": "changed",
+        "body": [
+          "Today: constant report value.",
+          "Proposed: each example scenario owns a fresh read counter; readiness is reached on its third call. A permission case always fails."
+        ]
+      },
+      {
+        "title": "S5 · No durable retry record",
+        "facet": "State elements",
+        "status": "context",
+        "body": [
+          "Starter has no database or persisted job state. That boundary remains.",
+          "Restarting the process starts a new invocation; the library supplies no effect deduplication or recovery log."
+        ]
+      }
+    ],
+    [
+      {
+        "title": "V1 · Policy unit checks",
+        "facet": "Tests · proposed",
+        "status": "new",
+        "body": [
+          "Reject zero/negative/non-integer attempts and non-Exception classes. Verify tuple snapshot and frozen fields.",
+          "Failure signal: invalid inputs run or policy changes after construction."
+        ]
+      },
+      {
+        "title": "V2 · Public API acceptance",
+        "facet": "Tests · proposed",
+        "status": "new",
+        "body": [
+          "Two failures then success: limit 3 returns the original object after 3 calls; limit 2 raises the second failure after 2 calls.",
+          "Enter through retry_kit exports, with caller-supplied operations."
+        ]
+      },
+      {
+        "title": "V3 · Failure boundary checks",
+        "facet": "Tests · proposed",
+        "status": "new",
+        "body": [
+          "Unrelated PermissionError: 1 call. Subclasses match. Empty eligibility: 1 call. Cancellation escapes.",
+          "Reuse the policy to prove invocation-local counters."
+        ]
+      },
+      {
+        "title": "V4 · Installed CLI smoke",
+        "facet": "Tests · changed",
+        "status": "changed",
+        "body": [
+          "Today: subprocess from outside checkout expects one report line.",
+          "Proposed: same installation boundary; assert all three scenario outputs. Uses Python isolated mode."
+        ]
+      },
+      {
+        "title": "V5 · Wheel rehearsal",
+        "facet": "Tests · proposed",
+        "status": "new",
+        "body": [
+          "Build an sdist and wheel; run the report consumer in an isolated environment using only that wheel.",
+          "Separately confirms packaging; unit checks do not establish installability."
+        ]
+      }
+    ]
+  ],
+  "links": [
+    [
+      0,
+      0,
+      "sought by"
+    ],
+    [
+      1,
+      0,
+      "provided by"
+    ],
+    [
+      1,
+      1,
+      "implemented by"
+    ],
+    [
+      1,
+      2,
+      "exposes"
+    ],
+    [
+      1,
+      3,
+      "updates"
+    ],
+    [
+      1,
+      4,
+      "observed by"
+    ],
+    [
+      2,
+      3,
+      "yields"
+    ],
+    [
+      2,
+      4,
+      "asserted by"
+    ],
+    [
+      0,
+      2,
+      "constructs"
+    ],
+    [
+      0,
+      3,
+      "creates"
+    ],
+    [
+      0,
+      4,
+      "checked by"
+    ]
+  ],
+  "rule_rows": [
+    2,
+    3,
+    4
+  ],
+  "vertical": [
+    [
+      1,
+      0,
+      "invokes I2"
+    ],
+    [
+      1,
+      1,
+      "calls I3"
+    ],
+    [
+      2,
+      0,
+      "configures"
+    ]
+  ]
+}

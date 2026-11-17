@@ -1,0 +1,20 @@
+I'd like to build Retry Kit, a small Python library for developers who need to
+retry a synchronous operation. For example, a report viewer might retry a read
+while a report is still being prepared. A client fetching a record might try
+again after a connection drops. I'd like the library to be used for such cases.
+
+Each caller knows the exceptions that determine when it's safe to repeat the
+operation and provides a list of such exceptions to the library. The caller
+should also choose how many attempts to allow, counting the first call. The
+library should retry the operation only if the called function raises one of
+those exceptions.
+
+Take the report viewer as an example. Its read function may raise ReportNotReady
+if the report is still being prepared. Depending on the time taken to prepare
+the report, sometimes the first read succeeds, and sometimes it takes a few
+tries. Say the report becomes available between the second and third retries.
+With a limit of three attempts, the viewer should get the report eventually.
+With a limit of two, it should get the ReportNotReady exception from its
+second read. A permission error should reach the viewer immediately.
+
+Give me a design proposal [use $ca-design-proposal].

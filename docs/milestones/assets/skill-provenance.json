@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-17",
+  "skill": "ca-design-proposal",
+  "runtime_version": "0.10.0",
+  "files": {
+    "SKILL.md": "53aa66d233dd8cd4b0ecbcbbe846580db2cbfa0eed1d80da915dfefef9c240b2",
+    "references/diagram-examples.md": "0ea3a698972f62d460bfc896691d8d3f60878f09564a7d1bde36b14f0ca9830d",
+    "references/diagrams.md": "3b6709c0401c5f72cfd2d3e161f739b9faebf488e76b2661caaaf9b1664319b8",
+    "references/perspectives.md": "d7ff12539a321731fe45b82e7e140d3150a955b5c142dafdfa8439f7baed47d2",
+    "references/software-system-language.md": "017945719d576d64dfc36344d6837cb12a8822181b61ed692092dca208b08fca",
+    "references/using-source-evidence.md": "17bec5166fa8697144cf1f69b7a3df3dd9bdf208d25cc858c680d4a34f861352"
+  },
+  "evidence_mode": "Current release source; no historical implementation or model artifacts used.",
+  "runtime_limitation": "modeler doctor reports a ca-design-graph skill/wheel mismatch; other checks pass. No model construction is required by the Design Proposal source-evidence workflow."
+}

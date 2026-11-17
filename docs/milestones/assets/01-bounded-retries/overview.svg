@@ -1,0 +1,377 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2540" height="1750" viewBox="0 0 2540 1750" role="img">
+<title>Milestone 1 — bounded retries, from intention to evidence</title><desc>Baseline: the shared starter. Proposed synchronous library; report viewer is its consumer. D / A / C / I / S / V identify subjects across the six perspectives.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="4" orient="auto"><path d="M1,0 L9,4 L1,8" fill="none" stroke="#486578" stroke-width="1.6"/></marker></defs>
+<rect width="2540" height="1750" fill="#f5f8fa"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="32" y="42" font-size="28" fill="#172b3a" font-weight="bold" text-anchor="start">Milestone 1 — bounded retries, from intention to evidence</text>
+<text x="32" y="76" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Baseline: the shared starter. Proposed synchronous library; report viewer is its consumer. D / A / C / I / S / V identify subjects across the six perspectives.</text>
+<rect x="2220" y="18" width="90" height="28" rx="5" fill="#22a06b"/>
+<text x="2265" y="38" font-size="14" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<rect x="2318" y="18" width="90" height="28" rx="5" fill="#3b82f6"/>
+<text x="2363" y="38" font-size="14" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<rect x="2416" y="18" width="90" height="28" rx="5" fill="#a3a3a3"/>
+<text x="2461" y="38" font-size="14" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<rect x="30" y="103" width="400" height="1605" rx="10" fill="#eaf0f4"/>
+<text x="220" y="138" font-size="22" fill="#172b3a" font-weight="bold" text-anchor="middle">Domain</text>
+<rect x="40" y="170" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="327" y="170" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="368.5" y="187" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="55" y="193" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Intentions</text>
+<text x="55" y="222" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">D1 · Recover without losing</text>
+<text x="55" y="246" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">control</text>
+<text x="55" y="273" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Application authors want a transient</text>
+<text x="55" y="295" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">failure to recover, while callers</text>
+<text x="55" y="317" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">regain control after a bounded number</text>
+<text x="55" y="339" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">of calls.</text>
+<text x="55" y="366" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">A1 seeks this outcome; D2 enables it.</text>
+<rect x="40" y="472" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="327" y="472" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="368.5" y="489" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="55" y="495" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Required capabilities</text>
+<text x="55" y="524" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">D2 · Repeat an eligible operation</text>
+<text x="55" y="551" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: the package has no retry API.</text>
+<text x="55" y="578" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: Retry Kit invokes a supplied</text>
+<text x="55" y="600" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">operation until success, an unrelated</text>
+<text x="55" y="622" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">failure, or the total attempt limit.</text>
+<rect x="40" y="774" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="327" y="774" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="368.5" y="791" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="55" y="797" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Rules</text>
+<text x="55" y="826" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">D3 · Caller selects failures</text>
+<text x="55" y="853" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Only listed Exception types, including</text>
+<text x="55" y="875" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">subclasses, permit another attempt. An</text>
+<text x="55" y="897" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">empty list retries nothing.</text>
+<text x="55" y="924" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Constrains D2; protects caller control</text>
+<text x="55" y="946" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">in D1. Cancellation signals escape.</text>
+<rect x="40" y="1076" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="327" y="1076" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="368.5" y="1093" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="55" y="1099" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Rules</text>
+<text x="55" y="1128" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">D4 · Count the first call</text>
+<text x="55" y="1155" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">attempts is a positive integer; bool is</text>
+<text x="55" y="1177" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">invalid. Three attempts means at most</text>
+<text x="55" y="1199" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">three invocations, including the first.</text>
+<text x="55" y="1226" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Constrains D2; guarantees the bound in</text>
+<text x="55" y="1248" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">D1.</text>
+<rect x="40" y="1378" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="327" y="1378" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="368.5" y="1395" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="55" y="1401" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Rules</text>
+<text x="55" y="1430" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">D5 · Preserve the outcome</text>
+<text x="55" y="1457" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Return the same successful object. On</text>
+<text x="55" y="1479" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">exhaustion, re-raise the same last</text>
+<text x="55" y="1501" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">exception. An unrelated error escapes</text>
+<text x="55" y="1523" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">immediately.</text>
+<text x="55" y="1550" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Constrains D2; protects the caller’s</text>
+<text x="55" y="1572" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">interpretation of success or failure.</text>
+<rect x="447" y="103" width="400" height="1605" rx="10" fill="#edf3f0"/>
+<text x="637" y="138" font-size="22" fill="#172b3a" font-weight="bold" text-anchor="middle">Architecture</text>
+<rect x="457" y="170" width="370" height="254" rx="9" fill="#fff" stroke="#a3a3a3" stroke-width="2"/>
+<rect x="744" y="170" width="83" height="23" rx="3" fill="#a3a3a3"/>
+<text x="785.5" y="187" font-size="13" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<text x="472" y="193" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Participants · system context</text>
+<text x="472" y="222" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">A1 · Application author / viewer</text>
+<text x="472" y="249" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">The author chooses which failures are</text>
+<text x="472" y="271" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">safe to repeat. The report viewer</text>
+<text x="472" y="293" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">consumes the library inside its own</text>
+<text x="472" y="315" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">process.</text>
+<text x="472" y="342" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Retry does not undo operation effects</text>
+<text x="472" y="364" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">or establish repeat safety.</text>
+<rect x="457" y="472" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="744" y="472" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="785.5" y="489" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="472" y="495" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Architectural participants</text>
+<text x="472" y="524" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">A2 · Retry Kit</text>
+<text x="472" y="551" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: importable package scaffold.</text>
+<text x="472" y="578" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: owns retry admission and</text>
+<text x="472" y="600" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">repeated invocation. Calls A3 through</text>
+<text x="472" y="622" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">I3; returns through I2. No service or</text>
+<text x="472" y="644" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">worker is added.</text>
+<rect x="457" y="774" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="744" y="774" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="785.5" y="791" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="472" y="797" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Architectural participants</text>
+<text x="472" y="826" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">A3 · Report operation</text>
+<text x="472" y="853" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: load_report always succeeds.</text>
+<text x="472" y="880" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed example: two failures, then</text>
+<text x="472" y="902" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">report success. Its readiness and side</text>
+<text x="472" y="924" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">effects remain caller-owned; library</text>
+<text x="472" y="946" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">sees only result or exception.</text>
+<rect x="457" y="1076" width="370" height="254" rx="9" fill="#fff" stroke="#a3a3a3" stroke-width="2"/>
+<rect x="744" y="1076" width="83" height="23" rx="3" fill="#a3a3a3"/>
+<text x="785.5" y="1093" font-size="13" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<text x="472" y="1099" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Runtime units</text>
+<text x="472" y="1128" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">A4 · Python runtime</text>
+<text x="472" y="1155" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">One synchronous call stack in the</text>
+<text x="472" y="1177" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">caller’s process. Standard exception</text>
+<text x="472" y="1199" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">matching selects eligible failures.</text>
+<text x="472" y="1226" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">No network, background task,</text>
+<text x="472" y="1248" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">persistence, clock, or waiting</text>
+<text x="472" y="1270" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">dependency.</text>
+<rect x="457" y="1378" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="744" y="1378" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="785.5" y="1395" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="472" y="1401" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">System context</text>
+<text x="472" y="1430" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">A5 · Distribution / consumer</text>
+<text x="472" y="1457" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: package import and first-call</text>
+<text x="472" y="1479" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">report smoke test.</text>
+<text x="472" y="1506" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: installed consumer exercises</text>
+<text x="472" y="1528" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">public retries, including exhaustion</text>
+<text x="472" y="1550" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">and permission failure. Wheel check</text>
+<text x="472" y="1572" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">retains the installation boundary.</text>
+<rect x="864" y="103" width="400" height="1605" rx="10" fill="#eaf0f4"/>
+<text x="1054" y="138" font-size="22" fill="#172b3a" font-weight="bold" text-anchor="middle">Subsystem Design</text>
+<rect x="874" y="170" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1161" y="170" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="1202.5" y="187" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="889" y="193" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Components · policy.py</text>
+<text x="889" y="222" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">C1 · RetryPolicy</text>
+<text x="889" y="249" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">No policy exists today. A frozen value</text>
+<text x="889" y="271" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">validates attempts and exception</text>
+<text x="889" y="293" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">classes; snapshots the supplied</text>
+<text x="889" y="315" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">collection as a tuple.</text>
+<text x="889" y="342" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Invalid policy fails before any</text>
+<text x="889" y="364" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">operation runs.</text>
+<rect x="874" y="472" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1161" y="472" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="1202.5" y="489" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="889" y="495" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Components · execution.py</text>
+<text x="889" y="524" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">C2 · retry executor</text>
+<text x="889" y="551" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">No retry loop exists today. For each</text>
+<text x="889" y="573" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">allowed attempt, call the operation and</text>
+<text x="889" y="595" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">return immediately on success.</text>
+<text x="889" y="622" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Catch only policy.retry_on; re-raise at</text>
+<text x="889" y="644" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">the last attempt.</text>
+<rect x="874" y="774" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1161" y="774" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="1202.5" y="791" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="889" y="797" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Components · __init__.py</text>
+<text x="889" y="826" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">C3 · Public exports</text>
+<text x="889" y="853" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: package docstring only.</text>
+<text x="889" y="880" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: export RetryPolicy and retry;</text>
+<text x="889" y="902" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">private modules remain implementation</text>
+<text x="889" y="924" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">details. Type variable retains the</text>
+<text x="889" y="946" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">operation’s return type.</text>
+<rect x="874" y="1076" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1161" y="1076" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="1202.5" y="1093" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="889" y="1099" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Components · read_report.py</text>
+<text x="889" y="1128" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">C4 · Report rehearsal</text>
+<text x="889" y="1155" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: one direct successful read.</text>
+<text x="889" y="1182" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: print three deterministic</text>
+<text x="889" y="1204" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">scenarios: success on read 3;</text>
+<text x="889" y="1226" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">exhaustion on read 2; permission</text>
+<text x="889" y="1248" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">failure on read 1.</text>
+<rect x="874" y="1378" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1161" y="1378" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="1202.5" y="1395" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="889" y="1401" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Local capabilities</text>
+<text x="889" y="1430" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">C5 · No shared invocation state</text>
+<text x="889" y="1457" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">C2 keeps its counter inside each</text>
+<text x="889" y="1479" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">invocation. Reusing one C1 policy does</text>
+<text x="889" y="1501" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">not carry failures or counts into</text>
+<text x="889" y="1523" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">another call.</text>
+<text x="889" y="1550" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">No retry schedule is introduced in</text>
+<text x="889" y="1572" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">milestone 1.</text>
+<rect x="1281" y="103" width="400" height="1605" rx="10" fill="#edf3f0"/>
+<text x="1471" y="138" font-size="22" fill="#172b3a" font-weight="bold" text-anchor="middle">Subsystem Interfaces</text>
+<rect x="1291" y="170" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1578" y="170" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="1619.5" y="187" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="1306" y="193" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Interfaces</text>
+<text x="1306" y="222" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">I1 · RetryPolicy(attempts,</text>
+<text x="1306" y="246" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">retry_on)</text>
+<text x="1306" y="273" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">attempts: positive int. retry_on:</text>
+<text x="1306" y="295" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">collection of Exception classes.</text>
+<text x="1306" y="317" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Defaults: one attempt, no eligible</text>
+<text x="1306" y="339" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">exceptions.</text>
+<text x="1306" y="366" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Caller supplies choices; C1 validates</text>
+<text x="1306" y="388" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">and freezes them.</text>
+<rect x="1291" y="472" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1578" y="472" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="1619.5" y="489" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="1306" y="495" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Interfaces</text>
+<text x="1306" y="524" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">I2 · retry(operation, *, policy)</text>
+<text x="1306" y="551" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Caller supplies a zero-argument</text>
+<text x="1306" y="573" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">callable and validated policy. C2</text>
+<text x="1306" y="595" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">returns its value or raises its</text>
+<text x="1306" y="617" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">exception.</text>
+<text x="1306" y="644" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Validate callable before the loop; do</text>
+<text x="1306" y="666" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">not classify a noncallable input as an</text>
+<text x="1306" y="688" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">operation failure.</text>
+<rect x="1291" y="774" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1578" y="774" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="1619.5" y="791" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="1306" y="797" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Exchanges</text>
+<text x="1306" y="826" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">I3 · operation() callback</text>
+<text x="1306" y="853" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Retry Kit calls the caller-owned</text>
+<text x="1306" y="875" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">operation. The callback returns T or</text>
+<text x="1306" y="897" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">raises an exception.</text>
+<text x="1306" y="924" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Arguments can be bound with a closure.</text>
+<text x="1306" y="946" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">There is no decorator or async</text>
+<text x="1306" y="968" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">protocol.</text>
+<rect x="1291" y="1076" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1578" y="1076" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="1619.5" y="1093" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="1306" y="1099" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Exchanges</text>
+<text x="1306" y="1128" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">I4 · Failure propagation</text>
+<text x="1306" y="1155" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Eligible and attempts remain: another</text>
+<text x="1306" y="1177" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">immediate call. Eligible and exhausted:</text>
+<text x="1306" y="1199" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">bare re-raise. Unrelated: escapes.</text>
+<text x="1306" y="1226" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">KeyboardInterrupt / SystemExit cannot</text>
+<text x="1306" y="1248" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">be eligible policy entries.</text>
+<rect x="1291" y="1378" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1578" y="1378" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="1619.5" y="1395" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="1306" y="1401" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Interfaces</text>
+<text x="1306" y="1430" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">I5 · Consumer command</text>
+<text x="1306" y="1457" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">uv run --locked python</text>
+<text x="1306" y="1479" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">examples/read_report.py</text>
+<text x="1306" y="1506" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: one report line. Proposed:</text>
+<text x="1306" y="1528" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">visible result plus call counts for</text>
+<text x="1306" y="1550" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">success, exhaustion, and permission</text>
+<text x="1306" y="1572" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">error.</text>
+<rect x="1698" y="103" width="400" height="1605" rx="10" fill="#eaf0f4"/>
+<text x="1888" y="138" font-size="22" fill="#172b3a" font-weight="bold" text-anchor="middle">State Management</text>
+<rect x="1708" y="170" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1995" y="170" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2036.5" y="187" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="1723" y="193" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">State elements</text>
+<text x="1723" y="222" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">S1 · Validated policy</text>
+<text x="1723" y="249" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Created once by C1; immutable per-</text>
+<text x="1723" y="271" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">instance fields. Snapshot of retry_on</text>
+<text x="1723" y="293" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">prevents caller list mutation changing</text>
+<text x="1723" y="315" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">retry eligibility.</text>
+<text x="1723" y="342" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Reuse shares settings, never an attempt</text>
+<text x="1723" y="364" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">counter.</text>
+<rect x="1708" y="472" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1995" y="472" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2036.5" y="489" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="1723" y="495" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">State elements</text>
+<text x="1723" y="524" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">S2 · Attempt ordinal</text>
+<text x="1723" y="551" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Local integer 1..policy.attempts,</text>
+<text x="1723" y="573" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">advanced only by the loop before</text>
+<text x="1723" y="595" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">invoking I3.</text>
+<text x="1723" y="622" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">First call is 1. After an eligible</text>
+<text x="1723" y="644" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">failure, the current ordinal decides</text>
+<text x="1723" y="666" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">whether a new call is allowed.</text>
+<rect x="1708" y="774" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1995" y="774" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2036.5" y="791" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="1723" y="797" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">State elements</text>
+<text x="1723" y="826" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">S3 · Current result / failure</text>
+<text x="1723" y="853" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Success is returned directly. The</text>
+<text x="1723" y="875" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">active exception remains available for</text>
+<text x="1723" y="897" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">bare re-raise; no wrapper replaces it.</text>
+<text x="1723" y="924" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Failure history is not retained after</text>
+<text x="1723" y="946" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">the call finishes.</text>
+<rect x="1708" y="1076" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1995" y="1076" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="2036.5" y="1093" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="1723" y="1099" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">State elements</text>
+<text x="1723" y="1128" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">S4 · Report readiness</text>
+<text x="1723" y="1155" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: constant report value.</text>
+<text x="1723" y="1182" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: each example scenario owns a</text>
+<text x="1723" y="1204" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">fresh read counter; readiness is</text>
+<text x="1723" y="1226" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">reached on its third call. A permission</text>
+<text x="1723" y="1248" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">case always fails.</text>
+<rect x="1708" y="1378" width="370" height="254" rx="9" fill="#fff" stroke="#a3a3a3" stroke-width="2"/>
+<rect x="1995" y="1378" width="83" height="23" rx="3" fill="#a3a3a3"/>
+<text x="2036.5" y="1395" font-size="13" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<text x="1723" y="1401" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">State elements</text>
+<text x="1723" y="1430" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">S5 · No durable retry record</text>
+<text x="1723" y="1457" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Starter has no database or persisted</text>
+<text x="1723" y="1479" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">job state. That boundary remains.</text>
+<text x="1723" y="1506" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Restarting the process starts a new</text>
+<text x="1723" y="1528" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">invocation; the library supplies no</text>
+<text x="1723" y="1550" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">effect deduplication or recovery log.</text>
+<rect x="2115" y="103" width="400" height="1605" rx="10" fill="#edf3f0"/>
+<text x="2305" y="138" font-size="22" fill="#172b3a" font-weight="bold" text-anchor="middle">Verification</text>
+<rect x="2125" y="170" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="2412" y="170" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2453.5" y="187" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="2140" y="193" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Tests · proposed</text>
+<text x="2140" y="222" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">V1 · Policy unit checks</text>
+<text x="2140" y="249" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Reject zero/negative/non-integer</text>
+<text x="2140" y="271" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">attempts and non-Exception classes.</text>
+<text x="2140" y="293" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Verify tuple snapshot and frozen</text>
+<text x="2140" y="315" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">fields.</text>
+<text x="2140" y="342" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Failure signal: invalid inputs run or</text>
+<text x="2140" y="364" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">policy changes after construction.</text>
+<rect x="2125" y="472" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="2412" y="472" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2453.5" y="489" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="2140" y="495" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Tests · proposed</text>
+<text x="2140" y="524" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">V2 · Public API acceptance</text>
+<text x="2140" y="551" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Two failures then success: limit 3</text>
+<text x="2140" y="573" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">returns the original object after 3</text>
+<text x="2140" y="595" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">calls; limit 2 raises the second</text>
+<text x="2140" y="617" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">failure after 2 calls.</text>
+<text x="2140" y="644" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Enter through retry_kit exports, with</text>
+<text x="2140" y="666" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">caller-supplied operations.</text>
+<rect x="2125" y="774" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="2412" y="774" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2453.5" y="791" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="2140" y="797" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Tests · proposed</text>
+<text x="2140" y="826" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">V3 · Failure boundary checks</text>
+<text x="2140" y="853" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Unrelated PermissionError: 1 call.</text>
+<text x="2140" y="875" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Subclasses match. Empty eligibility: 1</text>
+<text x="2140" y="897" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">call. Cancellation escapes.</text>
+<text x="2140" y="924" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Reuse the policy to prove invocation-</text>
+<text x="2140" y="946" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">local counters.</text>
+<rect x="2125" y="1076" width="370" height="254" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="2412" y="1076" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="2453.5" y="1093" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="2140" y="1099" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Tests · changed</text>
+<text x="2140" y="1128" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">V4 · Installed CLI smoke</text>
+<text x="2140" y="1155" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: subprocess from outside checkout</text>
+<text x="2140" y="1177" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">expects one report line.</text>
+<text x="2140" y="1204" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: same installation boundary;</text>
+<text x="2140" y="1226" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">assert all three scenario outputs. Uses</text>
+<text x="2140" y="1248" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Python isolated mode.</text>
+<rect x="2125" y="1378" width="370" height="254" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="2412" y="1378" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="2453.5" y="1395" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="2140" y="1401" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Tests · proposed</text>
+<text x="2140" y="1430" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">V5 · Wheel rehearsal</text>
+<text x="2140" y="1457" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Build an sdist and wheel; run the</text>
+<text x="2140" y="1479" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">report consumer in an isolated</text>
+<text x="2140" y="1501" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">environment using only that wheel.</text>
+<text x="2140" y="1528" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Separately confirms packaging; unit</text>
+<text x="2140" y="1550" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">checks do not establish installability.</text>
+<polyline points="315,424 315,451 552,451 552,424" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="433" y="444" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">sought by</text>
+<polyline points="315,726 315,753 552,753 552,726" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="433" y="746" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">provided by</text>
+<polyline points="732,726 732,753 969,753 969,726" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="850" y="746" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">implemented by</text>
+<polyline points="1149,726 1149,753 1386,753 1386,726" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1267" y="746" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">exposes</text>
+<polyline points="1566,726 1566,753 1803,753 1803,726" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1684" y="746" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">updates</text>
+<polyline points="1983,726 1983,753 2220,753 2220,726" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="2101" y="746" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">observed by</text>
+<polyline points="1566,1028 1566,1055 1803,1055 1803,1028" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1684" y="1048" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">yields</text>
+<polyline points="1983,1028 1983,1055 2220,1055 2220,1028" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="2101" y="1048" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">asserted by</text>
+<polyline points="1149,424 1149,451 1386,451 1386,424" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1267" y="444" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">constructs</text>
+<polyline points="1566,424 1566,451 1803,451 1803,424" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1684" y="444" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">creates</text>
+<polyline points="1983,424 1983,451 2220,451 2220,424" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="2101" y="444" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">checked by</text>
+<polyline points="642,424 642,472" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="734" y="451" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">invokes I2</text>
+<polyline points="642,726 642,774" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="734" y="753" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">calls I3</text>
+<polyline points="1059,424 1059,472" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1151" y="451" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">configures</text>
+<polyline points="40,900 7,900 7,598 40,598" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="0" y="0" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round"></text>
+<polyline points="40,1202 16,1202 16,598 40,598" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="0" y="0" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round"></text>
+<polyline points="40,1504 25,1504 25,598 40,598" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="0" y="0" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round"></text>
+<text x="40" y="1734" font-size="16" fill="#172b3a" font-weight="normal" text-anchor="start">Domain rule arrows constrain D2. Proposed tests become evidence only after execution; the proposal gives their commands and prerequisites.</text>
+</g></svg>

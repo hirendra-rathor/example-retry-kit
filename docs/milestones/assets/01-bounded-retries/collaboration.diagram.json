@@ -1,0 +1,104 @@
+{
+  "kind": "sequence",
+  "title": "Milestone 1 — who owns the retry decision?",
+  "subtitle": "Concrete proposal: two ReportNotReady failures, then success with attempts=3. Arrows are calls or outcomes; the callback remains outside the library boundary.",
+  "actors": [
+    {
+      "title": "Report viewer",
+      "facet": "Consumer",
+      "status": "context",
+      "body": [
+        "Chooses safe failure types and a total attempt limit. Receives the report or the original failure."
+      ]
+    },
+    {
+      "title": "RetryPolicy",
+      "facet": "Policy validator",
+      "status": "new",
+      "body": [
+        "Today: absent.",
+        "Proposed: validate and freeze attempts=3 and retry_on=(ReportNotReady,)."
+      ]
+    },
+    {
+      "title": "retry executor",
+      "facet": "Library control",
+      "status": "new",
+      "body": [
+        "Today: absent.",
+        "Proposed: owns a local attempt count; invokes callback and admits eligible retries."
+      ]
+    },
+    {
+      "title": "load_report",
+      "facet": "Caller-owned callback",
+      "status": "changed",
+      "body": [
+        "Today: succeeds on first call.",
+        "Proposed example: two temporary failures, then the report; owns readiness."
+      ]
+    }
+  ],
+  "events": [
+    [
+      0,
+      1,
+      "construct policy: attempts=3; retry_on=[ReportNotReady]"
+    ],
+    [
+      1,
+      0,
+      "returns validated immutable policy"
+    ],
+    [
+      0,
+      2,
+      "retry(load_report, policy=policy)"
+    ],
+    [
+      2,
+      1,
+      "read validated attempt limit and eligible exception types"
+    ],
+    [
+      2,
+      3,
+      "attempt 1: invoke operation()"
+    ],
+    [
+      3,
+      2,
+      "raises ReportNotReady #1; eligible and 1 < 3"
+    ],
+    [
+      2,
+      3,
+      "attempt 2: invoke operation() immediately"
+    ],
+    [
+      3,
+      2,
+      "raises ReportNotReady #2; eligible and 2 < 3"
+    ],
+    [
+      2,
+      3,
+      "attempt 3: invoke operation() immediately"
+    ],
+    [
+      3,
+      2,
+      "returns the report object"
+    ],
+    [
+      2,
+      0,
+      "returns the same report object after three calls"
+    ]
+  ],
+  "notes": [
+    "Limit 2: after failure #2, the executor re-raises that failure; no third invocation occurs.",
+    "PermissionError: does not match retry_on; it escapes to the viewer after the first call.",
+    "The library bounds call count. It does not make effects idempotent or interrupt a callback."
+  ]
+}

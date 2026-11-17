@@ -1,0 +1,3 @@
+Recovery: Report ready: 3 rows. Calls: 3.
+Exhaustion: ReportNotReady: Report not ready on read 2. Calls: 2.
+Permission: PermissionError: Report access denied. Calls: 1.

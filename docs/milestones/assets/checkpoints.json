@@ -1,0 +1,9 @@
+[
+  {
+    "number": 1,
+    "slug": "01-bounded-retries",
+    "title": "Bounded retries",
+    "subject": "Implement milestone 1: retry a caller's operation",
+    "tests": 31
+  }
+]

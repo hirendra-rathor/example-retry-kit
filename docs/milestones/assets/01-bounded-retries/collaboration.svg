@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1496" viewBox="0 0 1700 1496" role="img">
+<title>Milestone 1 — who owns the retry decision?</title><desc>Concrete proposal: two ReportNotReady failures, then success with attempts=3. Arrows are calls or outcomes; the callback remains outside the library boundary.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="4" orient="auto"><path d="M1,0 L9,4 L1,8" fill="none" stroke="#486578" stroke-width="1.6"/></marker></defs>
+<rect width="1700" height="1496" fill="#f5f8fa"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="32" y="42" font-size="28" fill="#172b3a" font-weight="bold" text-anchor="start">Milestone 1 — who owns the retry decision?</text>
+<text x="32" y="76" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Concrete proposal: two ReportNotReady failures, then success with attempts=3. Arrows are calls or outcomes; the callback remains outside the library boundary.</text>
+<rect x="1380" y="18" width="90" height="28" rx="5" fill="#22a06b"/>
+<text x="1425" y="38" font-size="14" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<rect x="1478" y="18" width="90" height="28" rx="5" fill="#3b82f6"/>
+<text x="1523" y="38" font-size="14" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<rect x="1576" y="18" width="90" height="28" rx="5" fill="#a3a3a3"/>
+<text x="1621" y="38" font-size="14" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<rect x="420" y="105" width="825" height="1286" rx="13" fill="#eaf1f5" stroke="#94a9b8" stroke-dasharray="7 5"/>
+<text x="440" y="135" font-size="18" fill="#172b3a" font-weight="bold" text-anchor="start">Retry Kit library boundary — same synchronous Python process</text>
+<rect x="35" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#a3a3a3" stroke-width="2"/>
+<rect x="302" y="158" width="83" height="23" rx="3" fill="#a3a3a3"/>
+<text x="343.5" y="175" font-size="13" fill="#172b3a" font-weight="normal" text-anchor="middle">context</text>
+<text x="50" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Consumer</text>
+<text x="50" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">Report viewer</text>
+<text x="50" y="237" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Chooses safe failure types and a</text>
+<text x="50" y="259" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">total attempt limit. Receives the</text>
+<text x="50" y="281" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">report or the original failure.</text>
+<path d="M210 394 V1384" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<rect x="450" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="717" y="158" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="758.5" y="175" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="465" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Policy validator</text>
+<text x="465" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">RetryPolicy</text>
+<text x="465" y="237" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: absent.</text>
+<text x="465" y="264" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: validate and freeze</text>
+<text x="465" y="286" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">attempts=3 and</text>
+<text x="465" y="308" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">retry_on=(ReportNotReady,).</text>
+<path d="M625 394 V1384" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<rect x="865" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#22a06b" stroke-width="2"/>
+<rect x="1132" y="158" width="83" height="23" rx="3" fill="#22a06b"/>
+<text x="1173.5" y="175" font-size="13" fill="white" font-weight="normal" text-anchor="middle">new</text>
+<text x="880" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Library control</text>
+<text x="880" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">retry executor</text>
+<text x="880" y="237" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: absent.</text>
+<text x="880" y="264" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed: owns a local attempt count;</text>
+<text x="880" y="286" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">invokes callback and admits eligible</text>
+<text x="880" y="308" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">retries.</text>
+<path d="M1040 394 V1384" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<rect x="1280" y="158" width="350" height="230" rx="9" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<rect x="1547" y="158" width="83" height="23" rx="3" fill="#3b82f6"/>
+<text x="1588.5" y="175" font-size="13" fill="white" font-weight="normal" text-anchor="middle">changed</text>
+<text x="1295" y="181" font-size="14" fill="#486578" font-weight="normal" text-anchor="start">Caller-owned callback</text>
+<text x="1295" y="210" font-size="19" fill="#172b3a" font-weight="bold" text-anchor="start">load_report</text>
+<text x="1295" y="237" font-size="17" fill="#596b78" font-weight="normal" text-anchor="start">Today: succeeds on first call.</text>
+<text x="1295" y="264" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Proposed example: two temporary</text>
+<text x="1295" y="286" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">failures, then the report; owns</text>
+<text x="1295" y="308" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">readiness.</text>
+<path d="M1455 394 V1384" stroke="#afbec7" stroke-width="1.5" stroke-dasharray="6 6"/>
+<polyline points="210,430 625,430" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="417.5" y="417" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">1. construct policy: attempts=3; retry_on=[ReportNotReady]</text>
+<polyline points="625,506 210,506" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="417.5" y="493" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">2. returns validated immutable policy</text>
+<polyline points="210,582 1040,582" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="625.0" y="569" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">3. retry(load_report, policy=policy)</text>
+<polyline points="1040,658 625,658" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="832.5" y="645" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">4. read validated attempt limit and eligible exception types</text>
+<polyline points="1040,734 1455,734" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1247.5" y="721" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">5. attempt 1: invoke operation()</text>
+<polyline points="1455,810 1040,810" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1247.5" y="797" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">6. raises ReportNotReady #1; eligible and 1 &lt; 3</text>
+<polyline points="1040,886 1455,886" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1247.5" y="873" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">7. attempt 2: invoke operation() immediately</text>
+<polyline points="1455,962 1040,962" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1247.5" y="949" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">8. raises ReportNotReady #2; eligible and 2 &lt; 3</text>
+<polyline points="1040,1038 1455,1038" fill="none" stroke="#486578" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="1247.5" y="1025" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">9. attempt 3: invoke operation() immediately</text>
+<polyline points="1455,1114 1040,1114" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="1247.5" y="1101" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">10. returns the report object</text>
+<polyline points="1040,1190 210,1190" fill="none" stroke="#486578" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="625.0" y="1177" text-anchor="middle" font-size="15" fill="#29485b" style="paint-order:stroke;stroke:#f5f8fa;stroke-width:6px;stroke-linejoin:round">11. returns the same report object after three calls</text>
+<text x="40" y="1426" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">Limit 2: after failure #2, the executor re-raises that failure; no third invocation occurs.</text>
+<text x="40" y="1451" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">PermissionError: does not match retry_on; it escapes to the viewer after the first call.</text>
+<text x="40" y="1476" font-size="17" fill="#172b3a" font-weight="normal" text-anchor="start">The library bounds call count. It does not make effects idempotent or interrupt a callback.</text>
+</g></svg>
